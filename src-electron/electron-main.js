@@ -1,6 +1,7 @@
-import { app, BrowserWindow, nativeTheme, Menu, Tray, nativeImage } from 'electron'
+import { app, BrowserWindow, nativeTheme } from 'electron'
 import path from 'path'
 import os from 'os'
+import createTray from './tray.js'
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
@@ -47,27 +48,7 @@ function createWindow() {
     })
 }
 
-function createTray() {
-    const trayIcon = nativeImage.createFromPath(path.resolve(__dirname, 'icons/icon.png')).resize({ width: 16, height: 16 })
-    tray = new Tray(trayIcon)
-    const contextMenu = Menu.buildFromTemplate([
-        {
-            label: 'Show App',
-            click: function () {
-                mainWindow.show()
-            }
-        },
-        {
-            label: 'Quit',
-            click: function () {
-                app.isQuitting = true
-                app.quit()
-            }
-        }
-    ])
-    tray.setToolTip('This is my application.')
-    tray.setContextMenu(contextMenu)
-}
+
 app.whenReady().then(() => {
     createWindow()
     createTray()
@@ -82,5 +63,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
     if (mainWindow === null) {
         createWindow()
+    } else {
+        mainWindow.show()
     }
 })
