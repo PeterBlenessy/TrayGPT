@@ -12,13 +12,17 @@ try {
     }
 } catch (_) { }
 
+let mainWindow = null
 let tray = null
-let mainWindow
 
 function createWindow() {
-    /**
-     * Initial window options
-     */
+    // Check if a window already exists
+    if (mainWindow !== null) {
+        mainWindow.show()
+        return
+    }
+
+    // Create a new window
     mainWindow = new BrowserWindow({
         icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
         width: 1000,
@@ -45,13 +49,22 @@ function createWindow() {
 
     mainWindow.on('closed', () => {
         mainWindow = null
+        tray.updateContextMenu()
+    })
+
+    mainWindow.on('show', () => {
+        tray.updateContextMenu()
+    })
+
+    mainWindow.on('hide', () => {
+        tray.updateContextMenu()
     })
 }
 
 
-app.whenReady().then(() => {
+app.on('ready', () => {
     createWindow()
-    createTray()
+    tray = createTray(createWindow)
 })
 
 app.on('window-all-closed', () => {
@@ -59,6 +72,7 @@ app.on('window-all-closed', () => {
         app.quit()
     }
 })
+
 
 app.on('activate', () => {
     if (mainWindow === null) {
