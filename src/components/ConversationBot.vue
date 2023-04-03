@@ -4,7 +4,7 @@
         <div class="q-gutter-y-md q-pb-xs rounded" v-for="message in conversation" :key="message.id">
             <q-list>
                 <q-item>
-                    <q-item-section avatar>
+                    <q-item-section top avatar>
                         <q-avatar :icon="message.role == 'user' ? 'account_box' : 'computer'" />
                     </q-item-section>
                     <q-item-section>
@@ -26,22 +26,28 @@
 
 <script>
 import { ref } from "vue";
-import { createPinia } from "pinia";
-
-const pinia = createPinia();
+import { useConversationsStore } from "src/stores/conversations-store.js";
 
 export default {
     name: "ConversationBot",
 
     setup() {
         const input = ref("");
-        let completionId = null;
-        const conversation = ref([]);//pinia.state.conversation[completionId] || [];
+        const conversationId = ref("");
+        const conversation = ref([]);
+
+        const store = useConversationsStore();
 
         async function sendInput() {
+
             // Store question in conversation
             let message = { role: "user", content: input.value };
+
+            // Add the question to the conversation list
             conversation.value.push(message);
+
+            // Store the question
+            store.addMessage(conversationId, message);
 
             try {
                 const requestOptions = {
@@ -65,18 +71,15 @@ export default {
                 const jsonResponse = await response.json();
 
                 // Format the response as HTML markup
-                const message = jsonResponse.choices[0].message;
-                //message.content = message.content.trim();//.replace(/(\r\n|\n|\r)/gm, "<br>");
+                message = jsonResponse.choices[0].message;
+                conversationId.value = jsonResponse.id;
 
-                completionId = jsonResponse.id;
-
-                // Store the response in conversation
+                // Add the response to the conversation list
                 conversation.value.push(message);
-
                 input.value = "";
 
-                // Store conversation in pinia state
-                pinia.state.conversation[completionId] = conversation;
+                // Store the response
+                store.addMessage(conversationId, message);
             } catch (error) {
                 console.error(error);
             }
