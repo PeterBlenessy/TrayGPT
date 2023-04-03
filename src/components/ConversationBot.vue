@@ -48,6 +48,7 @@ export default {
 
             // Store the question
             store.addMessage(conversationId, message);
+            input.value = "";
 
             try {
                 const requestOptions = {
@@ -58,7 +59,7 @@ export default {
                     },
                     body: JSON.stringify({
                         model: "gpt-3.5-turbo",
-                        messages: [{ role: "user", content: input.value }],
+                        messages: [message],
                         max_tokens: 2048,
                         temperature: 0.5,
                         stream: false,
@@ -76,7 +77,6 @@ export default {
 
                 // Add the response to the conversation list
                 conversation.value.push(message);
-                input.value = "";
 
                 // Store the response
                 store.addMessage(conversationId, message);
