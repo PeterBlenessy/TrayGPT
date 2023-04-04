@@ -1,7 +1,7 @@
 <template>
     <div class="q-pa-md full-width">
 
-        <div class="q-gutter-y-md q-pb-xs rounded" v-for="message in conversation" :key="message.id">
+        <div v-for="message in conversation" :key="message.id">
             <q-list>
                 <q-item>
                     <q-item-section top avatar>
@@ -14,8 +14,12 @@
             </q-list>
         </div>
 
-        <div class="q-gutter--md q-pt-md">
-            <q-input @keydown.enter="sendInput" outlined type="text" v-model="input" label="Type something...">
+        <div style="position: sticky; bottom: 10px" class="bg-white">
+            <q-input @keydown.enter="sendInput" :loading="loadingState" outlined type="text" v-model="input"
+                label="Type your question...">
+                <template v-slot:prepend>
+                    <q-icon name="account_box" />
+                </template>
                 <template v-slot:append>
                     <q-btn @click="sendInput" round dense flat icon="send" />
                 </template>
@@ -33,6 +37,7 @@ export default {
 
     setup() {
         const input = ref("");
+        const loadingState = ref(false)
         const conversationId = ref("");
         const conversation = ref([]);
 
@@ -51,6 +56,7 @@ export default {
             input.value = "";
 
             try {
+                loadingState.value = true;
                 const requestOptions = {
                     method: "POST",
                     headers: {
@@ -71,6 +77,8 @@ export default {
                 const response = await fetch("https://api.openai.com/v1/chat/completions", requestOptions);
                 const jsonResponse = await response.json();
 
+                loadingState.value = false;
+
                 // Format the response as HTML markup
                 message = jsonResponse.choices[0].message;
                 conversationId.value = jsonResponse.id;
@@ -85,7 +93,7 @@ export default {
             }
         }
 
-        return { input, conversation, sendInput };
+        return { input, conversation, sendInput, loadingState };
     },
 };
 </script>
