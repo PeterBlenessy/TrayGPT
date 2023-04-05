@@ -1,30 +1,44 @@
 <template>
-    <div class="q-pa-md full-width">
+    <div class="column q-pa-md full-width">
 
         <div v-for="message in conversation" :key="message.id">
             <q-list>
                 <q-item>
                     <q-item-section top avatar>
-                        <q-avatar :icon="message.role == 'user' ? 'account_box' : 'computer'" />
+                        <q-icon rounded :name="message.role == 'user' ? 'account_box' : 'computer'"
+                            :color="message.role == 'user' ? 'deep-orange' : 'primary'" />
                     </q-item-section>
-                    <q-item-section>
+                    <q-item-section top>
                         <q-item-label>{{ message.content }}</q-item-label>
                     </q-item-section>
                 </q-item>
             </q-list>
         </div>
 
-        <div style="position: sticky; bottom: 10px" class="bg-white">
-            <q-input @keydown.enter="sendInput" :loading="loadingState" outlined type="text" v-model="input"
-                label="Type your question...">
+        <div style="position: sticky; bottom: 35px" class="bg-white">
+            <q-input @keydown.enter="sendInput" :loading="loadingState" label-slot outlined type="text" v-model="input">
+
                 <template v-slot:prepend>
-                    <q-icon name="account_box" />
+                    <q-icon name="account_box" color="deep-orange" />
                 </template>
+                <template v-slot:label>
+                    <span>Ask your </span>
+                    <span class="text-weight-bold text-deep-orange">question</span>
+                </template>
+                <template v-slot:loading>
+                    <q-spinner-comment color="deep-orange" />
+                </template>
+
                 <template v-slot:append>
-                    <q-btn @click="sendInput" round dense flat icon="send" />
+                    <q-btn @click="sendInput" round dense flat icon="send" color="deep-orange" />
                 </template>
             </q-input>
         </div>
+
+        <!-- place QPageScroller at end of page -->
+        <q-page-scroller reverse position="bottom" :scroll-offset="25" :offset="[0, 100]">
+            <q-btn fab icon="keyboard_arrow_down" color="deep-orange" />
+        </q-page-scroller>
     </div>
 </template>
 
