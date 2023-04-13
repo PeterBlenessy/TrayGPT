@@ -17,8 +17,7 @@
 
                 <q-separator />
 
-                <q-expansion-item v-model="expanded" icon="tune" color="deep-orange" label="Application settings"
-                    caption="">
+                <q-expansion-item duration="100" icon="tune" color="deep-orange" label="Application settings">
 
                     <q-item>
                         <q-item-section avatar>
@@ -36,13 +35,14 @@
 
                 <q-separator />
 
-                <q-expansion-item v-model="expanded" icon="tune" color="deep-orange" label="OpenAI settings" caption="">
-                    <q-item>
+                <q-expansion-item duration="100" icon="tune" color="deep-orange" label="OpenAI settings" caption="">
+                    <q-item dense>
                         <q-item-section avatar>
-                            <q-icon name="api" color="deep-orange" />
+                            <q-icon name="key" color="deep-orange" />
                         </q-item-section>
                         <q-item-section>
                             <q-item-label>OpenAI API Key</q-item-label>
+                            <q-tooltip></q-tooltip>
                             <q-item-label caption>Set your OpenAI API Key</q-item-label>
                         </q-item-section>
                         <q-item-section avatar>
@@ -54,11 +54,48 @@
 
                     <q-item>
                         <q-item-section avatar>
+                            <q-icon name="box" color="deep-orange" />
+                        </q-item-section>
+                        <q-item-section>
+                            <q-item-label>Model</q-item-label>
+                            <q-tooltip>ID of the model to use.</q-tooltip>
+                        </q-item-section>
+                    </q-item>
+                    <q-separator spaced inset="item" />
+
+                    <q-item dense>
+                        <q-item-section avatar>
+                            <q-icon name="box" color="deep-orange" />
+                        </q-item-section>
+                        <q-item-section>
+                            <q-item-label>Max tokens</q-item-label>
+                            <q-tooltip>The maximum number of tokens to generate in the chat completion. The total length of
+                                input tokens and generated tokens is limited by the model's context length.</q-tooltip>
+                        </q-item-section>
+                    </q-item>
+                    <q-separator spaced inset="item" />
+
+                    <q-item dense>
+                        <q-item-section avatar>
+                            <q-icon name="box" color="deep-orange" />
+                        </q-item-section>
+                        <q-item-section>
+                            <q-item-label>Number of responses</q-item-label>
+                            <q-tooltip>How many chat completion choices to generate for each input message.</q-tooltip>
+                        </q-item-section>
+                    </q-item>
+                    <q-separator spaced inset="item" />
+
+                    <q-item>
+                        <q-item-section avatar>
                             <q-icon name="thermostat" color="deep-orange" />
                         </q-item-section>
                         <q-item-section>
                             <q-item-label>Temperature</q-item-label>
-                            <q-slider v-model="mic" :min="0" :max="50" label color="deep-orange" />
+                            <q-tooltip>Temperature is a measure of the randomness in the text. Lower values will result in
+                                more predictable text, while higher values will result in more surprising text.</q-tooltip>
+                            <q-slider v-model="temperature" :min="0" :max="2" step="0.1" :markers="0.5" label
+                                color="deep-orange" />
                         </q-item-section>
                     </q-item>
                 </q-expansion-item>
@@ -112,7 +149,8 @@ export default defineComponent({
             toggleLeftDrawer() {
                 leftDrawerOpen.value = !leftDrawerOpen.value;
             },
-            darkMode
+            darkMode,
+            temperature: ref(0)
         };
     },
 });
