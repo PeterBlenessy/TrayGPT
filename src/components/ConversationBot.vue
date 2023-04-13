@@ -47,8 +47,8 @@
 <script>
 import { ref, watch } from 'vue';
 import { useConversationsStore } from 'src/stores/conversations-store.js';
-import { useUserInputStore } from 'src/stores/user-input-store.js';
-import { storeToRefs } from 'pinia';
+//import { useUserInputStore } from 'src/stores/user-input-store.js';
+//import { storeToRefs } from 'pinia';
 import { VueShowdown } from 'vue-showdown';
 
 export default {
