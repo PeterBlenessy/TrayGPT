@@ -32,25 +32,24 @@
 
             <q-item>
                 <q-item-section avatar>
-                    <q-icon name="box" color="deep-orange" />
+                    <q-icon name="model_training" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-select v-model="aiModel" :options="aiModelOptions" label="AI model" dense options-dense />
-                    <q-tooltip max-width="300px">ID of the model to use.</q-tooltip>
+                    <q-item-label caption>AI model</q-item-label>
+                    <q-select v-model="aiModel" :options="aiModelOptions" dense options-dense />
                 </q-item-section>
             </q-item>
 
             <q-item>
                 <q-item-section avatar>
-                    <q-icon name="box" color="deep-orange" />
+                    <q-icon name="short_text" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-input v-model="maxTokens" label="Max tokens" placeholder="Max tokens" dense />
+                    <q-item-label caption>Max tokens ({{ maxTokens }})</q-item-label>
                     <q-slider v-model="maxTokens" :min="16" :max="4096" :step="16" :markers="0.5" label
                         color="deep-orange" />
-                    <q-tooltip max-width="300px">The maximum number of tokens to generate in the chat completion. The total
-                        length of
-                        input tokens and generated tokens is limited by the model's context length.</q-tooltip>
+                    <q-tooltip max-width="300px">The maximum number of tokens to generate in the chat
+                        completion.</q-tooltip>
                 </q-item-section>
             </q-item>
 
@@ -59,9 +58,10 @@
                     <q-icon name="alt_route" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-input v-model="choices" label="Number of choices" placeholder="Number of choices" dense />
-                    <q-tooltip max-width="300px">Number of chat completion choices to generate for each input
-                        message.</q-tooltip>
+                    <q-item-label caption>Number of choices ({{ choices }})</q-item-label>
+                    <q-slider v-model="choices" snap :min="1" :max="4" :step="1" :markers="1" label color="deep-orange" />
+                    <q-tooltip max-width="300px">Number of chat completion choices to generate for each input message.
+                    </q-tooltip>
                 </q-item-section>
             </q-item>
 
@@ -70,11 +70,13 @@
                     <q-icon name="thermostat" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-tooltip max-width="300px">Temperature is a measure of the randomness in the text. Lower values will
-                        result in
-                        more predictable text, while higher values will result in more surprising text.</q-tooltip>
+                    <q-item-label caption>Temperature ({{ temperature }})</q-item-label>
                     <q-slider v-model="temperature" :min="0" :max="2" :step="0.1" :markers="0.5" label
                         color="deep-orange" />
+                    <q-tooltip max-width="300px">Temperature is a measure of the randomness in the text. Lower values will
+                        result in more predictable text, while higher values will result in more surprising text.
+                    </q-tooltip>
+
                 </q-item-section>
             </q-item>
         </q-expansion-item>
@@ -92,6 +94,12 @@ export default defineComponent({
         const $q = useQuasar();
         const darkMode = ref(false);
 
+        const openaiKey = ref('');
+        const aiModel = ref('');
+        const maxTokens = ref(512);
+        const choices = ref(1);
+        const temperature = ref(0);
+
         function setDarkMode() {
             $q.dark.set(darkMode.value)
         }
@@ -101,14 +109,22 @@ export default defineComponent({
         onMounted(setDarkMode);
         watch(darkMode, () => { toggleDarkMode() });
 
+        watch(openaiKey, () => { console.log("openaiKey changed") });
+        watch(aiModel, () => { console.log("aiModel changed") });
+
+        watch(maxTokens, () => { console.log("maxTokens changed") });
+        watch(choices, () => { console.log("choices changed") });
+        watch(temperature, () => { console.log("Temp changed") });
+
+
         return {
             darkMode,
-            openaiKey: ref(''),
-            aiModel: ref(''),
+            openaiKey,
+            aiModel,
             aiModelOptions: ref(['gpt-3.5-turbo', 'gpt-4.0']),
-            maxTokens: ref(512),
-            choices: ref(1),
-            temperature: ref(0)
+            maxTokens,
+            choices,
+            temperature
         };
     },
 
