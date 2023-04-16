@@ -47,7 +47,6 @@
 <script>
 import { ref, watch } from 'vue';
 import { useConversationsStore } from 'src/stores/conversations-store.js';
-//import { useUserInputStore } from 'src/stores/user-input-store.js';
 //import { storeToRefs } from 'pinia';
 import { VueShowdown } from 'vue-showdown';
 
@@ -91,7 +90,7 @@ export default {
                         "Authorization": "Bearer " + process.env.OPENAI_API_KEY,
                     },
                     body: JSON.stringify({
-                        model: "gpt-4.0",
+                        model: "gpt-3.5-turbo",
                         messages: [{
                             ...{ role: "system", content: "You are a helpful assistant. You respond like you were giving examples of how to format text in markdown format using GitHub flavor." },
                             ...message

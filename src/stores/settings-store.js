@@ -12,8 +12,8 @@ export const useSettingsStore = defineStore('settings', {
 
             // OpenAI settings
             apiKey: '',
-            aiModelOptions: ref(['gpt-3.5-turbo', 'gpt-4.0']),
-            model: 'gpt-4.0',
+            modelOptions: ref(['gpt-3.5-turbo', 'gpt-4']),
+            model: 'gpt-4',
             maxTokens: 512,
             choices: 1,
             temperature: 0.2
