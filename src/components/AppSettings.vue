@@ -25,8 +25,7 @@
                     <q-icon name="key" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-input v-model="openaiKey" label="OpenAI API Key" placeholder="OpenAI API Key" dense />
-                    <q-tooltip max-width="300px"></q-tooltip>
+                    <q-input v-model="apiKey" label="OpenAI API Key" placeholder="OpenAI API Key" dense />
                 </q-item-section>
             </q-item>
 
@@ -36,7 +35,7 @@
                 </q-item-section>
                 <q-item-section>
                     <q-item-label caption>AI model</q-item-label>
-                    <q-select v-model="aiModel" :options="aiModelOptions" dense options-dense />
+                    <q-select v-model="model" :options="modelOptions" dense options-dense />
                 </q-item-section>
             </q-item>
 
@@ -46,12 +45,13 @@
                 </q-item-section>
                 <q-item-section>
                     <q-item-label caption>Max tokens ({{ maxTokens }})</q-item-label>
-                    <q-slider v-model="maxTokens" :min="16" :max="4096" :step="16" :markers="0.5" label
+                    <q-slider v-model="maxTokens" :min="64" :max="4096" :step="16" :markers="1024" label
                         color="deep-orange" />
                     <q-tooltip max-width="300px">The maximum number of tokens to generate in the chat
                         completion.</q-tooltip>
                 </q-item-section>
             </q-item>
+
 
             <q-item>
                 <q-item-section avatar>
@@ -84,44 +84,27 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, watch } from "vue";
+import { useSettingsStore } from 'src/stores/settings-store.js'
 import { useQuasar } from 'quasar';
+import { storeToRefs } from "pinia";
 
 export default defineComponent({
     name: "AppSettings",
 
     setup() {
         const $q = useQuasar();
-        const darkMode = ref(false);
+        const settingsStore = useSettingsStore();
 
-        const openaiKey = ref('');
-        const aiModel = ref('');
-        const maxTokens = ref(512);
-        const choices = ref(1);
-        const temperature = ref(0);
+        const { darkMode, apiKey, model, modelOptions, maxTokens, choices, temperature } = storeToRefs(settingsStore);
 
-        function setDarkMode() {
-            $q.dark.set(darkMode.value)
-        }
-
-        const toggleDarkMode = () => { $q.dark.set(darkMode.value); }
-
-        onMounted(setDarkMode);
-        watch(darkMode, () => { toggleDarkMode() });
-
-        watch(openaiKey, () => { console.log("openaiKey changed") });
-        watch(aiModel, () => { console.log("aiModel changed") });
-
-        watch(maxTokens, () => { console.log("maxTokens changed") });
-        watch(choices, () => { console.log("choices changed") });
-        watch(temperature, () => { console.log("Temp changed") });
-
+        watch(darkMode, () => $q.dark.set(darkMode.value));
 
         return {
             darkMode,
-            openaiKey,
-            aiModel,
-            aiModelOptions: ref(['gpt-3.5-turbo', 'gpt-4.0']),
+            apiKey,
+            model,
+            modelOptions,
             maxTokens,
             choices,
             temperature

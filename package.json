@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@quasar/extras": "^1.16.2",
+        "localforage": "^1.10.0",
         "pinia": "^2.0.11",
         "quasar": "^2.11.10",
         "vue": "^3.0.0",

@@ -91,7 +91,7 @@ export default {
                         "Authorization": "Bearer " + process.env.OPENAI_API_KEY,
                     },
                     body: JSON.stringify({
-                        model: "gpt-3.5-turbo",
+                        model: "gpt-4.0",
                         messages: [{
                             ...{ role: "system", content: "You are a helpful assistant. You respond like you were giving examples of how to format text in markdown format using GitHub flavor." },
                             ...message
