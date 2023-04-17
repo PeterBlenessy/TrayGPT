@@ -21,7 +21,7 @@
     </div>
 
     <q-input @keydown.enter="handleUserInput" label-slot outlined type="text" v-model="userInput"
-        style="min-width: 100%; max-width: 100%;" class="absolute-bottom bg-white">
+        style="min-width: 100%; max-width: 100%; opacity: 1; z-index: 10" position="absolute-bottom ">
         <template v-slot:prepend>
             <q-icon name="account_box" color="deep-orange" />
         </template>
@@ -46,8 +46,9 @@
 
 <script>
 import { ref, watch } from 'vue';
+import { useSettingsStore } from 'src/stores/settings-store.js';
 import { useConversationsStore } from 'src/stores/conversations-store.js';
-//import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia';
 import { VueShowdown } from 'vue-showdown';
 
 export default {
@@ -64,11 +65,18 @@ export default {
         const loading = ref(false);
         const store = useConversationsStore();
 
+        const settingsStore = useSettingsStore();
+        const { apiKey, model, maxTokens, choices, temperature } = storeToRefs(settingsStore);
+
         // watch(userInput, () => {
         //     console.log("message changed")
-        //     //            conversation.value.push({ role: "user", content: userInput.value });
+        //     conversation.value.push({ role: "user", content: userInput.value });
         //     handleUserInput();
         // });
+
+        watch(loading, () => {
+            console.log(conversationView.value.scrollHeight, conversationView.value.scrollTop)
+        });
 
         async function handleUserInput() {
 
@@ -87,18 +95,18 @@ export default {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Bearer " + process.env.OPENAI_API_KEY,
+                        "Authorization": "Bearer " + process.env.OPENAI_API_KEY || apiKey,
                     },
                     body: JSON.stringify({
-                        model: "gpt-3.5-turbo",
+                        model: model.value,
                         messages: [{
                             ...{ role: "system", content: "You are a helpful assistant. You respond like you were giving examples of how to format text in markdown format using GitHub flavor." },
                             ...message
                         }],
-                        max_tokens: 2048,
-                        temperature: 0.5,
+                        max_tokens: maxTokens.value,
+                        temperature: temperature.value,
                         stream: false,
-                        n: 1,
+                        n: choices.value,
                         stop: ["\nUSER: ", "\nAI: "]
                     }),
                 };
