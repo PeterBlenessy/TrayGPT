@@ -25,7 +25,8 @@
                     <q-icon name="key" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-input v-model="apiKey" label="OpenAI API Key" placeholder="OpenAI API Key" dense />
+                    <q-input :model-value="apiKey" @change="val => { apiKey = val }" label="OpenAI API Key"
+                        placeholder="OpenAI API Key" dense />
                 </q-item-section>
             </q-item>
 
@@ -45,8 +46,8 @@
                 </q-item-section>
                 <q-item-section>
                     <q-item-label caption>Max tokens ({{ maxTokens }})</q-item-label>
-                    <q-slider v-model="maxTokens" :min="64" :max="4096" :step="16" :markers="1024" label
-                        color="deep-orange" />
+                    <q-slider :model-value="maxTokens" @change="val => { maxTokens = val }" :min="64" :max="4096" :step="16"
+                        :markers="1024" label color="deep-orange" />
                     <q-tooltip max-width="300px">The maximum number of tokens to generate in the chat
                         completion.</q-tooltip>
                 </q-item-section>
@@ -59,7 +60,8 @@
                 </q-item-section>
                 <q-item-section>
                     <q-item-label caption>Number of choices ({{ choices }})</q-item-label>
-                    <q-slider v-model="choices" snap :min="1" :max="4" :step="1" :markers="1" label color="deep-orange" />
+                    <q-slider :model-value="choices" @change="val => { choices = val }" snap :min="1" :max="4" :step="1"
+                        :markers="1" label color="deep-orange" />
                     <q-tooltip max-width="300px">Number of chat completion choices to generate for each input message.
                     </q-tooltip>
                 </q-item-section>
@@ -71,8 +73,8 @@
                 </q-item-section>
                 <q-item-section>
                     <q-item-label caption>Temperature ({{ temperature }})</q-item-label>
-                    <q-slider v-model="temperature" :min="0" :max="2" :step="0.1" :markers="0.5" label
-                        color="deep-orange" />
+                    <q-slider :model-value="temperature" @change="val => { temperature = val }" :min="0" :max="2"
+                        :step="0.1" :markers="0.5" label color="deep-orange" />
                     <q-tooltip max-width="300px">Temperature is a measure of the randomness in the text. Lower values will
                         result in more predictable text, while higher values will result in more surprising text.
                     </q-tooltip>
@@ -95,7 +97,6 @@ export default defineComponent({
     setup() {
         const $q = useQuasar();
         const settingsStore = useSettingsStore();
-
         const { darkMode, apiKey, model, modelOptions, maxTokens, choices, temperature } = storeToRefs(settingsStore);
 
         watch(darkMode, () => $q.dark.set(darkMode.value));
@@ -110,6 +111,5 @@ export default defineComponent({
             temperature
         };
     },
-
 });
 </script>

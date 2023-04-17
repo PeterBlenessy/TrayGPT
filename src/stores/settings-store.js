@@ -1,18 +1,15 @@
-import { ref } from 'vue';
 import { defineStore } from 'pinia';
-//import localforage from "localforage";
-import { useQuasar } from 'quasar';
 
 export const useSettingsStore = defineStore('settings', {
 
     state: () => {
         return {
             // Application settings
-            darkMode: ref(false),
+            darkMode: false,
 
             // OpenAI settings
             apiKey: '',
-            modelOptions: ref(['gpt-3.5-turbo', 'gpt-4']),
+            modelOptions: ['gpt-3.5-turbo', 'gpt-4'],
             model: 'gpt-4',
             maxTokens: 512,
             choices: 1,
