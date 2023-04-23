@@ -1,7 +1,6 @@
 <template>
-    <q-list>
-
-        <q-expansion-item :duration="100" icon="tune" color="deep-orange" label="Application settings">
+    <q-card style="width: 350px">
+        <q-list>
 
             <q-item>
                 <q-item-section avatar>
@@ -15,11 +14,9 @@
                     <q-toggle v-model="darkMode" flat dense round color="deep-orange" />
                 </q-item-section>
             </q-item>
-        </q-expansion-item>
 
-        <q-separator />
+            <q-separator />
 
-        <q-expansion-item :duration="100" icon="tune" color="deep-orange" label="OpenAI settings" caption="">
             <q-item>
                 <q-item-section avatar>
                     <q-icon name="key" color="deep-orange" />
@@ -53,7 +50,6 @@
                 </q-item-section>
             </q-item>
 
-
             <q-item>
                 <q-item-section avatar>
                     <q-icon name="alt_route" color="deep-orange" />
@@ -75,14 +71,15 @@
                     <q-item-label caption>Temperature ({{ temperature }})</q-item-label>
                     <q-slider :model-value="temperature" @change="val => { temperature = val }" :min="0" :max="2"
                         :step="0.1" :markers="0.5" label color="deep-orange" />
-                    <q-tooltip max-width="300px">Temperature is a measure of the randomness in the text. Lower values will
+                    <q-tooltip max-width="300px">Temperature is a measure of the randomness in the text. Lower values
+                        will
                         result in more predictable text, while higher values will result in more surprising text.
                     </q-tooltip>
 
                 </q-item-section>
             </q-item>
-        </q-expansion-item>
-    </q-list>
+        </q-list>
+    </q-card>
 </template>
 
 <script>
