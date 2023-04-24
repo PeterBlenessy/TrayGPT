@@ -1,22 +1,20 @@
 <template>
-    <q-layout view="hHh Lpr lFf">
-        <q-header class="transparent">
-            <q-toolbar class="bg-tertiary">
-                <q-input @keydown.enter="handleUserInput" label-slot outlined type="text" v-model="userInput"
-                    style="min-width: 100%; max-width: 100%;" label="Ask your question">
-                    <template v-slot:prepend>
-                        <q-icon name="account_box" color="deep-orange" />
-                    </template>
+    <q-layout view="hHh lpr fFf">
+        <q-header :class="darkMode == true ? 'bg-grey-10' : 'bg-white'" style="z-index:10">
+            <q-toolbar class="no-padding" rounded-borders>
+                <q-input autofocus filled placeholder="Ask your question"
+                    style="min-width: 800px; max-width: 800px;opacity100;" @keydown.enter="handleUserInput"
+                    v-model="userInput">
                     <template v-slot:loading>
                         <q-spinner-comment color="deep-orange" />
                     </template>
 
                     <template v-slot:append>
                         <q-btn @click="handleUserInput" round dense flat icon="send" color="deep-orange" />
-                        <q-btn @click="showSettings = true" round dense flat icon="settings" color="deep-orange" />
+                        <q-btn @click="() => { showSettings = true }" round dense flat icon="settings"
+                            color="deep-orange" />
                     </template>
                 </q-input>
-
             </q-toolbar>
 
             <q-dialog v-model="showSettings" position="top">
@@ -24,31 +22,34 @@
             </q-dialog>
         </q-header>
 
-        <q-page-container>
-            <q-list>
-                <div v-for="message in conversation" :key="message.id">
-                    <q-item>
-                        <q-item-section avatar>
-                            <q-icon rounded :name="message.role == 'user' ? 'account_box' : 'computer'"
-                                :color="message.role == 'user' ? 'deep-orange' : 'primary'" />
-                        </q-item-section>
-                        <q-item-section>
-                            <div class="markdown-body">
-                                <q-spinner-dots v-if="loading && message.role == 'computer'" color="primary" size="2em" />
-                                <q-item-label v-else>
-                                    <VueShowdown :markdown="message.content" flavor="github"
-                                        :options="{ emoji: true, tables: true, tasklists: true }" />
-                                </q-item-label>
-                            </div>
-                        </q-item-section>
-                    </q-item>
-                </div>
-            </q-list>
+        <q-page-container style="z-index:-1√">
+            <q-page>
+                <q-list>
+                    <div v-for="message in conversation" :key="message.id">
+                        <q-item>
+                            <q-item-section avatar top>
+                                <q-icon rounded :name="message.role == 'user' ? 'account_box' : 'computer'"
+                                    :color="message.role == 'user' ? 'deep-orange' : 'primary'" />
+                            </q-item-section>
+                            <q-item-section top>
+                                <div class="markdown-body">
+                                    <q-spinner-dots v-if="loading && message.role == 'computer'" color="primary"
+                                        size="2em" />
+                                    <q-item-label v-else>
+                                        <VueShowdown :markdown="message.content" flavor="github"
+                                            :options="{ emoji: true, tables: true, tasklists: true }" />
+                                    </q-item-label>
+                                </div>
+                            </q-item-section>
+                        </q-item>
+                    </div>
+                </q-list>
 
-            <!-- place QPageScroller at end of page -->
-            <q-page-scroller reverse position="bottom" :scroll-offset="20" :offset="[20, 20]">
-                <q-btn round dense icon="south" color="deep-orange" />
-            </q-page-scroller>
+                <!-- place QPageScroller at end of page -->
+                <q-page-scroller reverse position="bottom" :scroll-offset="20" :offset="[20, 20]">
+                    <q-btn round dense icon="south" color="deep-orange" />
+                </q-page-scroller>
+            </q-page>
         </q-page-container>
     </q-layout>
 </template>
@@ -78,7 +79,7 @@ export default defineComponent({
         const store = useConversationsStore();
 
         const settingsStore = useSettingsStore();
-        const { apiKey, model, maxTokens, choices, temperature } = storeToRefs(settingsStore);
+        const { darkMode, apiKey, model, maxTokens, choices, temperature } = storeToRefs(settingsStore);
 
         // watch(userInput, () => {
         //     console.log("message changed")
@@ -150,6 +151,7 @@ export default defineComponent({
             conversationView,
             loading,
             showSettings: ref(false),
+            darkMode
         };
     },
 });

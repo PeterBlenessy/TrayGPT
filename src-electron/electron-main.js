@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme } from 'electron'
+import { app, BrowserWindow, nativeTheme, globalShortcut } from 'electron'
 import path from 'path'
 import os from 'os'
 import createTray from './tray.js'
@@ -25,9 +25,11 @@ function createWindow() {
     // Create a new window
     mainWindow = new BrowserWindow({
         icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
-        width: 1000,
-        height: 600,
-        useContentSize: true,
+        minWidth: 800,
+        maxWidth:800,
+        minHeight:60,
+        maxHeight: 600,
+        frame: false,
         webPreferences: {
             contextIsolation: true,
             // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
@@ -39,13 +41,19 @@ function createWindow() {
 
     if (process.env.DEBUGGING) {
         // if on DEV or Production with debug enabled
-        mainWindow.webContents.openDevTools()
+        //mainWindow.webContents.openDevTools()
     } else {
         // we're on production; no access to devtools pls
         mainWindow.webContents.on('devtools-opened', () => {
             mainWindow.webContents.closeDevTools()
         })
     }
+
+    mainWindow.webContents.on('did-finish-load', () => {
+        const size = mainWindow.getContentSize()
+        mainWindow.setMinimumSize(size[0], size[1])
+        console.log(size)
+    })
 
     mainWindow.on('closed', () => {
         mainWindow = null
@@ -65,6 +73,16 @@ function createWindow() {
 app.on('ready', () => {
     createWindow()
     tray = createTray(createWindow)
+    let ret = globalShortcut.register('CommandOrControl+Shift+Space', () => {
+        createWindow()
+    })
+
+    if (!ret) { console.log('Registration of CommandOrControl+Shift+Space failed.') }
+
+    ret = globalShortcut.register('Escape', () => {
+        app.hide()
+    })
+    if (!ret) { console.log('Registration of Escape failed.') }
 })
 
 app.on('window-all-closed', () => {
@@ -80,4 +98,8 @@ app.on('activate', () => {
     } else {
         mainWindow.show()
     }
+})
+
+app.on('will-quit', () => {
+    globalShortcut.unregisterAll()
 })
