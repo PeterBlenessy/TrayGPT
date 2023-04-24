@@ -55,12 +55,13 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted, watch } from 'vue';
 import { useSettingsStore } from 'src/stores/settings-store.js';
 import { useConversationsStore } from 'src/stores/conversations-store.js';
 import { storeToRefs } from 'pinia';
 import { VueShowdown } from 'vue-showdown';
 import AppSettings from "src/components/AppSettings.vue";
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
     name: "MainLayout",
@@ -71,6 +72,7 @@ export default defineComponent({
     },
 
     setup() {
+        const $q = useQuasar();
         const userInput = ref('')
         const conversationId = ref('');
         const conversation = ref([]);
@@ -82,10 +84,18 @@ export default defineComponent({
         const { darkMode, apiKey, model, maxTokens, choices, temperature } = storeToRefs(settingsStore);
 
         // watch(userInput, () => {
-        //     console.log("message changed")
         //     conversation.value.push({ role: "user", content: userInput.value });
         //     handleUserInput();
         // });
+
+        // Sets Quasar dark mode plugin value based on stored mode.
+        function setDarkMode() {
+            $q.dark.set(darkMode.value)
+        }
+        // Make sure to set the stored dark mode for app
+        onMounted(() => setDarkMode());
+        // Watch runtime changes to dark mode
+        watch(darkMode, () => setDarkMode());
 
         async function handleUserInput() {
 

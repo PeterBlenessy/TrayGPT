@@ -96,8 +96,6 @@ export default defineComponent({
         const settingsStore = useSettingsStore();
         const { darkMode, apiKey, model, modelOptions, maxTokens, choices, temperature } = storeToRefs(settingsStore);
 
-        watch(darkMode, () => $q.dark.set(darkMode.value));
-
         return {
             darkMode,
             apiKey,

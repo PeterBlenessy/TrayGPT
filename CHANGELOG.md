@@ -48,10 +48,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [IN-PROGRESS]
 
 ## v0.1.0 - [UNRELEASED]
-- Fix dark/light mode not being applied at application start.
 
 ## Done
-- Add CHANGELOG.md file to keep documented track of changes.
+- Fixed dark/light mode not being applied at application start. Removed unused getters from settings store.
+- Add CHANGELOG.md file to keep documented track of changes and a backlog.
 - Added yarn.lock to source control to ensure that Yarn installs the same exact dependency tree across all machines.
 - Added support for storing settings in IndexedDB by using LocalForage
 - Added import of environment variables from .env file.
