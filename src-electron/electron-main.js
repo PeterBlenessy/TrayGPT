@@ -26,11 +26,14 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
         minWidth: 800,
-        maxWidth:800,
-        minHeight:60,
-        maxHeight: 600,
+        maxWidth: 800,
+        minHeight: 60,
+        height: 400,
+        maxHeight: 800,
         frame: false,
+        transparent: true,
         webPreferences: {
+            enablePreferredSizeMode: true,
             contextIsolation: true,
             // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
             preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD)
@@ -66,6 +69,14 @@ function createWindow() {
 
     mainWindow.on('hide', () => {
         tray.updateContextMenu()
+    })
+
+    mainWindow.webContents.on('preferred-size-changed', (event, size) => {
+
+        if (size.width != 0 && size.height != 0) {
+            mainWindow.setSize(size.width, size.height)
+        }
+        console.log(size)
     })
 }
 

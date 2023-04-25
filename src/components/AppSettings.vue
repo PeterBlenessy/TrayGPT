@@ -1,5 +1,5 @@
 <template>
-    <q-card style="width: 350px">
+    <q-card style="width: 350px;">
         <q-list>
 
             <q-item>

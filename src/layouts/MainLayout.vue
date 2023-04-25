@@ -1,10 +1,9 @@
 <template>
     <q-layout view="hHh lpr fFf">
-        <q-header :class="darkMode == true ? 'bg-grey-10' : 'bg-white'" style="z-index:10">
+        <q-header :class="darkMode == true ? 'bg-grey-10' : 'bg-white'">
             <q-toolbar class="no-padding" rounded-borders>
-                <q-input autofocus filled placeholder="Ask your question"
-                    style="min-width: 800px; max-width: 800px;opacity100;" @keydown.enter="handleUserInput"
-                    v-model="userInput">
+                <q-input autofocus filled placeholder="Ask your question" style="min-width: 800px; max-width: 800px;"
+                    @keydown.enter="handleUserInput" v-model="userInput">
                     <template v-slot:loading>
                         <q-spinner-comment color="deep-orange" />
                     </template>
@@ -15,14 +14,13 @@
                             color="deep-orange" />
                     </template>
                 </q-input>
+                <q-dialog v-model="showSettings" position="top" transition-show="slide-down">
+                    <AppSettings />
+                </q-dialog>
             </q-toolbar>
-
-            <q-dialog v-model="showSettings" position="top">
-                <AppSettings />
-            </q-dialog>
         </q-header>
 
-        <q-page-container style="z-index:-1√">
+        <q-page-container>
             <q-page>
                 <q-list>
                     <div v-for="message in conversation" :key="message.id">
@@ -161,7 +159,7 @@ export default defineComponent({
             conversationView,
             loading,
             showSettings: ref(false),
-            darkMode
+            darkMode,
         };
     },
 });

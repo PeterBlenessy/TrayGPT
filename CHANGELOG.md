@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## v0.1.0 - [UNRELEASED]
 
 ## Done
+- Added automatic growing and shrinking of app window based on content. Plan was to show only input field, but app window became too small to display settings, so must set larger window height.
 - Fixed dark/light mode not being applied at application start. Removed unused getters from settings store.
 - Add CHANGELOG.md file to keep documented track of changes and a backlog.
 - Added yarn.lock to source control to ensure that Yarn installs the same exact dependency tree across all machines.
