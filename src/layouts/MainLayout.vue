@@ -112,7 +112,7 @@ export default defineComponent({
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Bearer " + process.env.OPENAI_API_KEY || apiKey,
+                        "Authorization": "Bearer " + apiKey.value || process.env.OPENAI_API_KEY,
                     },
                     body: JSON.stringify({
                         model: model.value,
