@@ -26,12 +26,11 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
         minWidth: 800,
-        maxWidth: 800,
+        width: 800,
         minHeight: 60,
         height: 400,
-        maxHeight: 800,
-        frame: false,
-        transparent: true,
+        titleBarStyle: 'customButtonsOnHover',
+        center: true,
         webPreferences: {
             enablePreferredSizeMode: true,
             contextIsolation: true,

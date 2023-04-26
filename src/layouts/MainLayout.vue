@@ -2,7 +2,7 @@
     <q-layout view="hHh lpr fFf">
         <q-header :class="darkMode == true ? 'bg-grey-10' : 'bg-white'">
             <q-toolbar class="no-padding" rounded-borders>
-                <q-input autofocus filled placeholder="Ask your question" style="min-width: 800px; max-width: 800px;"
+                <q-input autofocus filled placeholder="Ask your question" style="min-width: 100%; max-width: 100%;"
                     @keydown.enter="handleUserInput" v-model="userInput">
                     <template v-slot:loading>
                         <q-spinner-comment color="deep-orange" />
