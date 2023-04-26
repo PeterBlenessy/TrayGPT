@@ -34,8 +34,7 @@
                                     <q-spinner-dots v-if="loading && message.role == 'computer'" color="primary"
                                         size="2em" />
                                     <q-item-label v-else>
-                                        <VueShowdown :markdown="message.content" flavor="github"
-                                            :options="{ emoji: true, tables: true, tasklists: true }" />
+                                        <q-markdown no-highlight=false>{{ message.content }}</q-markdown>
                                     </q-item-label>
                                 </div>
                             </q-item-section>
@@ -57,7 +56,6 @@ import { defineComponent, ref, onMounted, watch } from 'vue';
 import { useSettingsStore } from 'src/stores/settings-store.js';
 import { useConversationsStore } from 'src/stores/conversations-store.js';
 import { storeToRefs } from 'pinia';
-import { VueShowdown } from 'vue-showdown';
 import AppSettings from "src/components/AppSettings.vue";
 import { useQuasar } from 'quasar';
 
@@ -65,7 +63,6 @@ export default defineComponent({
     name: "MainLayout",
 
     components: {
-        VueShowdown,
         AppSettings,
     },
 

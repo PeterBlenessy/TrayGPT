@@ -46,10 +46,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [FUTURE]
 
 ## [IN-PROGRESS]
+- Add support for Notify plugin to be able to display error messages to the user.
+- Add error handling of lack of apiKey.
+- Add better error handling of fetch() response. Timeout and error codes.
 
 ## v0.1.0 - [UNRELEASED]
 
 ## Done
+- Removed VueShowdown in favour of Quasar plugin/component QMarkdown based on markdown-it.
 - Added automatic growing and shrinking of app window based on content. Plan was to show only input field, but app window became too small to display settings, so must set larger window height.
 - Fixed dark/light mode not being applied at application start. Removed unused getters from settings store.
 - Add CHANGELOG.md file to keep documented track of changes and a backlog.
