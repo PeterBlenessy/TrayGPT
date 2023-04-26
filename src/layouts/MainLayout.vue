@@ -34,7 +34,7 @@
                                     <q-spinner-dots v-if="loading && message.role == 'computer'" color="primary"
                                         size="2em" />
                                     <q-item-label v-else>
-                                        <q-markdown no-highlight=false>{{ message.content }}</q-markdown>
+                                        <q-markdown show-copy>{{ message.content }}</q-markdown>
                                     </q-item-label>
                                 </div>
                             </q-item-section>
