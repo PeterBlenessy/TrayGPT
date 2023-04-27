@@ -31,6 +31,7 @@ function createWindow() {
         height: 400,
         titleBarStyle: 'customButtonsOnHover',
         center: true,
+        show: false,
         webPreferences: {
             enablePreferredSizeMode: true,
             contextIsolation: true,
@@ -51,15 +52,8 @@ function createWindow() {
         })
     }
 
-    mainWindow.webContents.on('did-finish-load', () => {
-        const size = mainWindow.getContentSize()
-        mainWindow.setMinimumSize(size[0], size[1])
-        console.log(size)
-    })
-
-    mainWindow.on('closed', () => {
-        mainWindow = null
-        tray.updateContextMenu()
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.show()
     })
 
     mainWindow.on('show', () => {
@@ -68,6 +62,17 @@ function createWindow() {
 
     mainWindow.on('hide', () => {
         tray.updateContextMenu()
+    })
+
+    mainWindow.on('closed', () => {
+        mainWindow = null
+        tray.updateContextMenu()
+    })
+
+    mainWindow.webContents.on('did-finish-load', () => {
+        const size = mainWindow.getContentSize()
+        mainWindow.setMinimumSize(size[0], size[1])
+        console.log(size)
     })
 
     mainWindow.webContents.on('preferred-size-changed', (event, size) => {

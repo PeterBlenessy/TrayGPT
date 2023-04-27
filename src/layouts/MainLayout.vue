@@ -34,7 +34,9 @@
                                     <q-spinner-dots v-if="loading && message.role == 'computer'" color="primary"
                                         size="2em" />
                                     <q-item-label v-else>
-                                        <q-markdown show-copy no-line-numbers>{{ message.content }}</q-markdown>
+                                        <q-markdown :show-copy="message.role == 'user' ? false : true"
+                                            copy-icon="content_copy" no-line-numbers :src="message.content"
+                                            :plugins="mdPlugins" />
                                     </q-item-label>
                                 </div>
                             </q-item-section>
@@ -58,6 +60,7 @@ import { useConversationsStore } from 'src/stores/conversations-store.js';
 import { storeToRefs } from 'pinia';
 import AppSettings from "src/components/AppSettings.vue";
 import { useQuasar } from 'quasar';
+import markdownItMermaid from '@datatraccorporation/markdown-it-mermaid'
 
 export default defineComponent({
     name: "MainLayout",
@@ -157,6 +160,7 @@ export default defineComponent({
             loading,
             showSettings: ref(false),
             darkMode,
+            mdPlugins: [markdownItMermaid]
         };
     },
 });

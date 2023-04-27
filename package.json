@@ -11,6 +11,7 @@
         "test": "echo \"No test specified\" && exit 0"
     },
     "dependencies": {
+        "@datatraccorporation/markdown-it-mermaid": "^0.5.0",
         "@quasar/extras": "^1.16.2",
         "github-markdown-css": "^5.2.0",
         "localforage": "^1.10.0",
