@@ -46,8 +46,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [FUTURE]
 
 ## [IN-PROGRESS]
-- Fix window size growing outside of screen when new content is added.
-- Fix window size not being possible to change using Magnet when content fills screen.
 
 ## v0.1.0 - [UNRELEASED]
 
