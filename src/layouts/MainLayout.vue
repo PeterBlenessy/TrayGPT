@@ -107,49 +107,65 @@ export default defineComponent({
             // Store the question
             store.addMessage(conversationId, message);
 
-            try {
-                const requestOptions = {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "Bearer " + apiKey.value || process.env.OPENAI_API_KEY,
-                    },
-                    body: JSON.stringify({
-                        model: model.value,
-                        messages: [{
-                            ...{ role: "system", content: "You are a helpful assistant. You respond like you were giving examples of how to format text in markdown format using GitHub flavor." },
-                            ...message
-                        }],
-                        max_tokens: maxTokens.value,
-                        temperature: temperature.value,
-                        stream: false,
-                        n: choices.value,
-                        stop: ["\nUSER: ", "\nAI: "]
-                    }),
-                };
+            const requestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + apiKey.value || process.env.OPENAI_API_KEY,
+                },
+                body: JSON.stringify({
+                    model: model.value,
+                    messages: [{
+                        ...{ role: "system", content: "You are a helpful assistant. You respond like you were giving examples of how to format text in markdown format using GitHub flavor." },
+                        ...message
+                    }],
+                    max_tokens: maxTokens.value,
+                    temperature: temperature.value,
+                    stream: false,
+                    n: choices.value,
+                    stop: ["\nUSER: ", "\nAI: "]
+                }),
+            };
 
-                loading.value = true;
-                message = { role: "computer", content: '<q-spinner-dots color="primary" size="2em" />' };
-                conversation.value.unshift(message);
+            loading.value = true;
+            message = { role: "computer", content: '<q-spinner-dots color="primary" size="2em" />' };
+            conversation.value.unshift(message);
 
-                const response = await fetch("https://api.openai.com/v1/chat/completions", requestOptions);
-                const jsonResponse = await response.json();
+            fetch("https://api.openai.com/v1/chat/completions", requestOptions)
+                .then(response => {
+                    if (!response.ok) throw new Error(response.status)
 
-                // Format the response as HTML markup
-                message = jsonResponse.choices[0].message;
-                conversationId.value = jsonResponse.id;
+                    return response.json()
+                })
+                .then(jsonResponse => {
+                    // Format the response as HTML markup
+                    message = jsonResponse.choices[0].message;
+                    conversationId.value = jsonResponse.id;
+                    conversation.value.shift();
+                    // Add the response to the conversation list
+                    conversation.value.unshift(message);
+                    // Store the response
+                    store.addMessage(conversationId, message);
+                })
+                .catch(error => {
+                    console.log(error)
 
-                loading.value = false;
-                conversation.value.shift();
-                // Add the response to the conversation list
-                conversation.value.unshift(message);
+                    const apiErrors = {
+                        '401': { message: 'Invalid Authentication.', solution: 'Ensure the API key used is correct.' },
+                        '429': { message: 'Rate limit reached for requests, or the engine may be overloaded.', solution: 'Please retry your requests after a brief wait.' },
+                        '500': { message: 'The server had an error while processing your request.', solution: 'Retry your request after a brief wait and contact us if the issue persists.' },
+                    }
 
-                // Store the response
-                store.addMessage(conversationId, message);
-
-            } catch (error) {
-                console.error(error);
-            }
+                    $q.notify({
+                        type: 'negative',
+                        position: 'top',
+                        html: true,
+                        message: apiErrors[error.message].message + '</br>' + apiErrors[error.message].solution
+                    })
+                })
+                .finally(() => {
+                    loading.value = false;
+                })
         }
 
         return {
