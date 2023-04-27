@@ -52,6 +52,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## v0.1.0 - [UNRELEASED]
 
 ## Done
+- Fixed window size growing outside of screen when new content is added.
+- Fixed window size not being possible to change using Magnet when content fills screen.
+- Changed window minimum size and size to bouble when devtools is opened. Reset when devtools is closed.
 - Added support for Notify plugin to be able to display error messages to the user.
 - Added error handling of lack of apiKey.
 - Added better error handling of fetch() response. Timeout and error codes.

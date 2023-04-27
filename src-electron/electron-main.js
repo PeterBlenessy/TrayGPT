@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme, globalShortcut } from 'electron'
+import { app, BrowserWindow, nativeTheme, globalShortcut, screen } from 'electron'
 import path from 'path'
 import os from 'os'
 import createTray from './tray.js'
@@ -29,6 +29,7 @@ function createWindow() {
         width: 800,
         minHeight: 60,
         height: 400,
+        backgroundColor: '#000000', // Set background to black to avoid the white flickering at launch
         titleBarStyle: 'customButtonsOnHover',
         center: true,
         show: false,
@@ -52,8 +53,10 @@ function createWindow() {
         })
     }
 
+    // Don't show the window until it's ready. This should prevent any white flickering
     mainWindow.once('ready-to-show', () => {
         mainWindow.show()
+        console.log('ready-to-show')
     })
 
     mainWindow.on('show', () => {
@@ -69,18 +72,39 @@ function createWindow() {
         tray.updateContextMenu()
     })
 
-    mainWindow.webContents.on('did-finish-load', () => {
-        const size = mainWindow.getContentSize()
-        mainWindow.setMinimumSize(size[0], size[1])
-        console.log(size)
+    // Preferred size changes when new content is added and rendered outside of the window bounds
+    mainWindow.webContents.on('preferred-size-changed', (event, size) => {
+        // Check if the size is not zero (happens for some reason when settings dialog is opened)
+        if (size.width === 0 || size.height === 0) {
+            return;
+        }
+
+        // Make sure that the window's new width and size are within the screen boundaries
+        const currentScreen = screen.getDisplayMatching(mainWindow.getBounds())
+        const screenSize = currentScreen.size
+        const windowBounds = mainWindow.getBounds()
+
+        const newWidth = (windowBounds.x + size.width) < screenSize.width ? size.width : (screenSize.width - windowBounds.x)
+        const newHeight = (windowBounds.y + size.height) < screenSize.height ? size.height : (screenSize.height - windowBounds.y)
+
+        // Set the new size for the window
+        mainWindow.setSize(newWidth, newHeight)
     })
 
-    mainWindow.webContents.on('preferred-size-changed', (event, size) => {
+    // When devtools is opened, double the window width and center it
+    mainWindow.webContents.on('devtools-opened', () => {
+        const windowSize = mainWindow.getSize()
+        mainWindow.setSize(windowSize[0] * 2, windowSize[1])
+        mainWindow.setMinimumSize(windowSize[0] * 2, windowSize[1])
+        mainWindow.center()
+    })
 
-        if (size.width != 0 && size.height != 0) {
-            mainWindow.setSize(size.width, size.height)
-        }
-        console.log(size)
+    // When devtools is closed, reset the window width and center it
+    mainWindow.webContents.on('devtools-closed', () => {
+        const windowSize = mainWindow.getSize()
+        mainWindow.setMinimumSize(800, 60)
+        mainWindow.setSize(windowSize[0] / 2, windowSize[1])
+        mainWindow.center()
     })
 }
 
