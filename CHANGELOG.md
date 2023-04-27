@@ -49,10 +49,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for Notify plugin to be able to display error messages to the user.
 - Add error handling of lack of apiKey.
 - Add better error handling of fetch() response. Timeout and error codes.
+- Fix window size growing outside of screen when new content is added.
+- Fix window size not being possible to change using Magnet when content fills screen.
 
 ## v0.1.0 - [UNRELEASED]
 
 ## Done
+- Changed input field focus indication color to deep-orange.
 - Added support for Mermaid diagrams and flowcharts in the markdown. Changed to show window after contents have been loaded and rendered.
 - Added the ability to copy code to the clipboard from the OpenAI response text.
 - Removed VueShowdown in favour of Quasar plugin/component QMarkdown based on markdown-it.

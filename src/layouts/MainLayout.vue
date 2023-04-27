@@ -3,7 +3,7 @@
         <q-header :class="darkMode == true ? 'bg-grey-10' : 'bg-white'">
             <q-toolbar class="no-padding" rounded-borders>
                 <q-input autofocus filled placeholder="Ask your question" style="min-width: 100%; max-width: 100%;"
-                    @keydown.enter="handleUserInput" v-model="userInput">
+                    color="deep-orange" @keydown.enter="handleUserInput" v-model="userInput">
                     <template v-slot:loading>
                         <q-spinner-comment color="deep-orange" />
                     </template>
@@ -165,3 +165,11 @@ export default defineComponent({
     },
 });
 </script>
+<style lang="sass">
+.q-markdown__copy
+  position: absolute
+  top: 0px
+  right: 0px
+  color: $deep-orange
+
+</style>
