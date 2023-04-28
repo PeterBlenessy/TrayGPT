@@ -44,21 +44,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### [FUTURE]
 
-### [KNOWN BUGS]
+### [KNOWN-BUGS]
 - Sometimes, when darkMode is 'auto', and OS system wide dark mode setting is changed to 'auto', the header/input field turns black.
 - Fix the white flickering at app launch which still remains.
 
 ## [IN-PROGRESS]
-- Fixed Mermaid diagrams lower in the list disappearing when a new diagram is displayed.
-- Added 'auto' to dark mode setting so controlled by the OS darkmode setting.
-- Added theme-source=system to electron-main, so OS darkmode setting can be used.
-- Fixed loading icon active for all ai responses when waiting for new response.
-- Changed error handling to be able to include more information from response when possible.
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
 ## v0.1.0 - [UNRELEASED]
 
 ## Done
+- Fixed Mermaid diagrams lower in the list disappearing when a new diagram is displayed.
+- Added 'auto' to dark mode setting so controlled by the OS darkmode setting.
+- Added theme-source=system to electron-main, so OS darkmode setting can be used.
+- Fixed loading icon active for all ai responses when waiting for new response.
+- Changed error handling to be able to include more information from response when possible.
 - Fixed window size growing outside of screen when new content is added.
 - Fixed window size not being possible to change using Magnet when content fills screen.
 - Changed window minimum size and size to bouble when devtools is opened. Reset when devtools is closed.
