@@ -1,6 +1,6 @@
 <template>
     <q-layout view="hHh lpr fFf">
-        <q-header :class="darkMode == true ? 'bg-grey-10' : 'bg-white'">
+        <q-header :class="darkHeader == true ? 'bg-grey-10' : 'bg-white'">
             <q-toolbar class="no-padding" rounded-borders>
                 <q-input autofocus filled placeholder="Ask your question" style="min-width: 100%; max-width: 100%;"
                     color="deep-orange" @keydown.enter="handleUserInput" v-model="userInput">
@@ -31,8 +31,8 @@
                             </q-item-section>
                             <q-item-section top>
                                 <div class="markdown-body">
-                                    <q-spinner-dots v-if="loading && message.role == 'computer'" color="primary"
-                                        size="2em" />
+                                    <q-spinner-dots v-if="loading && message.role == 'computer' && message.content !== ''"
+                                        color="primary" size="2em" />
                                     <q-item-label v-else>
                                         <q-markdown :show-copy="message.role == 'user' ? false : true"
                                             copy-icon="content_copy" no-line-numbers :src="message.content"
@@ -76,6 +76,7 @@ export default defineComponent({
         const conversation = ref([]);
         const conversationView = ref(null);
         const loading = ref(false);
+        const darkHeader = ref(true);
         const store = useConversationsStore();
 
         const settingsStore = useSettingsStore();
@@ -89,6 +90,7 @@ export default defineComponent({
         // Sets Quasar dark mode plugin value based on stored mode.
         function setDarkMode() {
             $q.dark.set(darkMode.value)
+            darkHeader.value = $q.dark.isActive ? true : false
         }
         // Make sure to set the stored dark mode for app
         onMounted(() => setDarkMode());
@@ -148,19 +150,25 @@ export default defineComponent({
                     store.addMessage(conversationId, message);
                 })
                 .catch(error => {
-                    console.log(error)
 
+                    let errorMessage = ''
                     const apiErrors = {
                         '401': { message: 'Invalid Authentication.', solution: 'Ensure the API key used is correct.' },
                         '429': { message: 'Rate limit reached for requests, or the engine may be overloaded.', solution: 'Please retry your requests after a brief wait.' },
                         '500': { message: 'The server had an error while processing your request.', solution: 'Retry your request after a brief wait and contact us if the issue persists.' },
                     }
 
+                    if (error.response) {
+                        errorMessage = error.response.status + '< /br>' + error.response.data
+                    } else {
+                        errorMessage = apiErrors[error.message].message + '</br>' + apiErrors[error.message].solution
+                    }
+
                     $q.notify({
                         type: 'negative',
                         position: 'top',
                         html: true,
-                        message: apiErrors[error.message].message + '</br>' + apiErrors[error.message].solution
+                        message: errorMessage
                     })
                 })
                 .finally(() => {
@@ -175,7 +183,7 @@ export default defineComponent({
             conversationView,
             loading,
             showSettings: ref(false),
-            darkMode,
+            darkHeader,
             mdPlugins: [markdownItMermaid]
         };
     },

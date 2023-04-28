@@ -30,7 +30,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add support for automatic application updates.
 - Add support for electron-updater events and logging of update steps to console.
-- Add Notify plugin. App now notifies if something goes wrong during refresh in all components.
 - Add electron-log to provide for propper logging in main.
 
 ### [MINOR]
@@ -45,7 +44,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### [FUTURE]
 
+### [KNOWN BUGS]
+- Sometimes, when darkMode is 'auto', and OS system wide dark mode setting is changed to 'auto', the header/input field turns black.
+- Fix the white flickering at app launch which still remains.
+
 ## [IN-PROGRESS]
+- Fixed Mermaid diagrams lower in the list disappearing when a new diagram is displayed.
+- Added 'auto' to dark mode setting so controlled by the OS darkmode setting.
+- Added theme-source=system to electron-main, so OS darkmode setting can be used.
+- Fixed loading icon active for all ai responses when waiting for new response.
+- Changed error handling to be able to include more information from response when possible.
+- Add option to send only the latest question or entire conversation when calling OpenAI API.
 
 ## v0.1.0 - [UNRELEASED]
 
@@ -71,4 +80,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Changed the positioning of the question input field to be fixed to the bottom of the page.
 - Added coloring to the icons used. 
 - Added QPageScroller when there is new content on page and to allow to scroll to bottom.
-

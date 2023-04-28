@@ -11,7 +11,8 @@
                     <q-item-label caption>Toggle dark/light mode</q-item-label>
                 </q-item-section>
                 <q-item-section side>
-                    <q-toggle v-model="darkMode" flat dense round color="deep-orange" />
+                    <q-toggle v-model="darkMode" toggle-indeterminate indeterminate-value='auto' flat dense round
+                        color="deep-orange" />
                 </q-item-section>
             </q-item>
 
@@ -95,6 +96,8 @@ export default defineComponent({
         const $q = useQuasar();
         const settingsStore = useSettingsStore();
         const { darkMode, apiKey, model, modelOptions, maxTokens, choices, temperature } = storeToRefs(settingsStore);
+
+        //watch(darkMode, () => $q.dark.set(darkMode.value))
 
         return {
             darkMode,

@@ -6,6 +6,8 @@ import createTray from './tray.js'
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
 
+nativeTheme.themeSource = 'system'
+
 try {
     if (platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
         require('fs').unlinkSync(path.join(app.getPath('userData'), 'DevTools Extensions'))
@@ -29,7 +31,6 @@ function createWindow() {
         width: 800,
         minHeight: 60,
         height: 400,
-        backgroundColor: '#000000', // Set background to black to avoid the white flickering at launch
         titleBarStyle: 'customButtonsOnHover',
         center: true,
         show: false,
@@ -56,7 +57,6 @@ function createWindow() {
     // Don't show the window until it's ready. This should prevent any white flickering
     mainWindow.once('ready-to-show', () => {
         mainWindow.show()
-        console.log('ready-to-show')
     })
 
     mainWindow.on('show', () => {
