@@ -30,15 +30,14 @@
                                     :color="message.role == 'user' ? 'deep-orange' : 'primary'" />
                             </q-item-section>
                             <q-item-section top>
-                                <div class="markdown-body">
-                                    <q-spinner-dots v-if="loading && message.role == 'computer' && message.content !== ''"
-                                        color="primary" size="2em" />
-                                    <q-item-label v-else>
-                                        <q-markdown :show-copy="message.role == 'user' ? false : true"
-                                            copy-icon="content_copy" no-line-numbers :src="message.content"
-                                            :plugins="mdPlugins" />
-                                    </q-item-label>
-                                </div>
+                                <q-item-label v-if="loading && message.role == 'computer' && message.content !== ''">
+                                    <q-skeleton type="text" width="100%" />
+                                    <q-skeleton type="text" width="75%" />
+                                </q-item-label>
+                                <q-item-label v-else>
+                                    <q-markdown :show-copy="message.role == 'user' ? false : true" copy-icon="content_copy"
+                                        no-line-numbers :src="message.content" :plugins="mdPlugins" />
+                                </q-item-label>
                             </q-item-section>
                         </q-item>
                     </div>

@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## v0.1.0 - [UNRELEASED]
 
 ## Done
+- Changed visualization of loading from q-spinner to q-skeleton.
 - Fixed Mermaid diagrams lower in the list disappearing when a new diagram is displayed.
 - Added 'auto' to dark mode setting so controlled by the OS darkmode setting.
 - Added theme-source=system to electron-main, so OS darkmode setting can be used.
