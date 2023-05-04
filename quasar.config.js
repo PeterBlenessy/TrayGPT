@@ -190,7 +190,7 @@ module.exports = configure(function (/* ctx */) {
 
             inspectPort: 5858,
 
-            bundler: 'packager', // 'packager' or 'builder'
+            bundler: 'builder', // 'packager' or 'builder'
 
             packager: {
                 // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
@@ -208,7 +208,42 @@ module.exports = configure(function (/* ctx */) {
             builder: {
                 // https://www.electron.build/configuration/configuration
 
-                appId: 'traygpt'
+                appId: 'traygpt',
+                afterSign: 'electron-builder-notarize',
+                artifactName: '${productName}-${version}-${os}-${arch}.${ext}',
+                mac: {
+                    category: 'public.app-category.ai',
+                    hardenedRuntime: true,
+                    entitlements: './node_modules/electron-builder-notarize/entitlements.mac.inherit.plist',
+                    target: {
+                        target: 'default',
+                        arch: [
+                            'x64',
+                            'arm64'
+                        ]
+                    }
+                },
+                linux: {
+                    category: 'public.app-category.ai',
+                    target: [
+                        'tar.gz'
+                    ]
+                },
+                win: {
+                    target: {
+                        target: 'portable',
+                        arch: [
+                            'x64',
+                            'arm64'
+                        ]
+                    }
+                },
+                publish: {
+                    'provider': 'github',
+                    'owner': 'PeterBlenessy',
+                    'repo': 'traygpt'
+                }
+
             }
         },
 

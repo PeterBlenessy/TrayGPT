@@ -3,6 +3,7 @@
 node_modules
 
 .env
+notarization-error.log
 
 # Quasar core related directories
 .quasar

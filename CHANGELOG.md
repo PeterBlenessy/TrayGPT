@@ -17,25 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [BACKLOG]
 
 ### [MAJOR]
-- Add electron-build artifactName med common for all platforms and set to '${productName}-${version}-${os}-${arch}.${ext}'
-- Add separate mac build targets for Intel based (x64) and M1 Apple silicon (arm64) macs
-- Add build targets: linux (deb and tar.gz) and windows (portable).
-- Add support for application signing and notarization on Mac (electron-builder-notarize).
-
-- Add automatic inclusion of package version when creating draft release on GitHub.
-- Add package.json script - git:push - to do add, commit and push changes.
-- Add package.json script - cicd - push changes, build and publish artefacts, and create release in private repo.
-- Add scripts - release:private and release:public - to extract relevant release notes from CHANGELOG.md and pass it to gh create release release-notes to the private and to teh public repo respectively.
-- Add chained scripts in package.json - release:mac and release:all - to create draft release, build and upload artefacts, and publish release to stoqster-releases.
-
-- Add support for automatic application updates.
-- Add support for electron-updater events and logging of update steps to console.
-- Add electron-log to provide for propper logging in main.
 
 ### [MINOR]
 - Add support for displaying release notes in application.
-- Add support for catching and handling fetch() errors, e.g., Failed to load resource: the server responded with a status of 500.
-- Change webPreferences.webSecurity: false, so fetch() can be used from the renderer process.
 - Change coding style to using ';' at the end of lines.
 - Remove Vetur related VSCode extension related configs. 
 - Add lint rules: vue3-strongly-recommended.
@@ -51,7 +35,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.0 - [UNRELEASED]
+## v0.2.0 - [UNRELEASED]
+
+
+## v0.1.0 - 2023-05-04
+- Added support for electron-updater events and logging of update steps to console.
+- Added electron-log to provide for propper logging in main.
+- Added support for automatic application updates using electron-uodater.
+
+- Add support for application signing and notarization on Mac (electron-builder-notarize).
+- Add electron-build artifactName med common for all platforms and set to '${productName}-${version}-${os}-${arch}.${ext}'
+- Add separate mac build targets for Intel based (x64) and M1 Apple silicon (arm64) macs
+- Add build targets: linux (deb and tar.gz) and windows (portable).
+
+- Add automatic inclusion of package version when creating draft release on GitHub.
+- Add package.json script - git:push - to do add, commit and push changes.
+- Add package.json script - cicd - to push changes, build and publish artefacts, and create release in private repo.
+- Add package.json script - release:public - to extract changes related to this version from CHANGELOG.md and pass it to gh create release and add release-notes to this release.
+- Add chained scripts in package.json - release:mac and release:all - to create draft release, build and upload artefacts, and publish release to stoqster-releases.
 
 ## Done
 - Changed visualization of loading from q-spinner to q-skeleton.

@@ -1,4 +1,6 @@
 import { app, BrowserWindow, nativeTheme, globalShortcut, screen } from 'electron'
+import { autoUpdater } from 'electron-updater'
+import logger from 'electron-log'
 import path from 'path'
 import os from 'os'
 import createTray from './tray.js'
@@ -56,6 +58,16 @@ function createWindow() {
 
     // Don't show the window until it's ready. This should prevent any white flickering
     mainWindow.once('ready-to-show', () => {
+        // Check for updates
+        autoUpdater.logger = logger;
+        autoUpdater.checkForUpdatesAndNotify();
+        logger.info('registered-auto-update');
+
+        setInterval(() => {
+            autoUpdater.checkForUpdatesAndNotify();
+            logger.info('registered-auto-update refresh interval');
+        }, 1000 * 60 * 60); // Check every hour
+
         mainWindow.show()
     })
 
@@ -108,7 +120,9 @@ function createWindow() {
     })
 }
 
-
+//---------------------------------------------------------
+// App events
+//---------------------------------------------------------
 app.on('ready', () => {
     createWindow()
     tray = createTray(createWindow)
@@ -142,3 +156,32 @@ app.on('activate', () => {
 app.on('will-quit', () => {
     globalShortcut.unregisterAll()
 })
+
+//---------------------------------------------------------
+// Auto updater events
+//---------------------------------------------------------
+autoUpdater.on('checking-for-update', () => {
+    logger.info('Checking for update...');
+})
+
+autoUpdater.on('update-available', (ev, info) => {
+    logger.info('Update available.');
+})
+
+autoUpdater.on('update-not-available', (ev, info) => {
+    logger.info('Update not available.');
+})
+
+autoUpdater.on('error', (ev, err) => {
+    logger.error('Error in auto-updater:');
+    logger.error(err);
+})
+
+autoUpdater.on('download-progress', (ev, progressObj) => {
+    logger.info('Download progress...');
+})
+
+autoUpdater.on('update-downloaded', (ev, info) => {
+    logger.info('Update downloaded; will install in 5 seconds');
+})
+
