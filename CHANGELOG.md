@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v0.2.0 - [UNRELEASED]
 
+## v0.1.1 - 2023-05-05
+- Changed parameter setting in release:public, removed =false from --draft.
 
 ## v0.1.0 - 2023-05-04
 - Added support for electron-updater events and logging of update steps to console.

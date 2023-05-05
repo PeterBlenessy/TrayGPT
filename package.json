@@ -1,6 +1,6 @@
 {
     "name": "traygpt",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "TrayGPT is a platform-independent application that lives in the tray bar of your favorite OS, and is compatible with Windows, macOS, and Linux. It is powered by Electron, Vuew.js and Quazar, and provides a simple and intuitive user experience. It allows users to communicate with GPT-based AI in a natural and conversational way, making it easy to access and generate information. It has build in chat session management, which enables users to easily dust off and return to those long forgotten topics.",
     "productName": "TrayGPT",
     "author": "Peter Blenessy <peter.blenessy@gmail.com>",
@@ -12,7 +12,7 @@
         "publish:mac": "quasar build -m electron -T mac --publish always",
         "publish:win": "quasar build -m electron -T win --publish always",
         "publish:all": "quasar build -m electron -T all --publish always",
-        "release:public": "CHANGELOG=$(sed -n \"/^## v$npm_package_version/,/^## /p\" CHANGELOG.md | sed '1d;$d') && gh release create v$npm_package_version --draft=false --title v$npm_package_version --notes \"$CHANGELOG\" --repo PeterBlenessy/traygpt",
+        "release:public": "CHANGELOG=$(sed -n \"/^## v$npm_package_version/,/^## /p\" CHANGELOG.md | sed '1d;$d') && gh release create v$npm_package_version --draft --title v$npm_package_version --notes \"$CHANGELOG\" --repo PeterBlenessy/traygpt",
         "git:push": "CHANGELOG=$(sed -n \"/^## v$npm_package_version/,/^## /p\" CHANGELOG.md | sed '1d;$d') && git add . && git commit -m \"$CHANGELOG\" && git push -u origin master",
         "cicd": "yarn git:push && yarn release:public && yarn publish:all"
     },
