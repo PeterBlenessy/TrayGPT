@@ -50,8 +50,18 @@ npm run format
 ### Build the app for production
 
 ```bash
-quasar build
+yarn cicd
+# This evaluates to 
+# yarn git:push && yarn release:public && yarn publish:all
 ```
+This commands starts a series of commands as can be seen in package.json:
+* Push code to the Github repo, with commit comments extracted from CHANGELOG.md
+* Create a draft release of this version
+* Build the application for all configured architectures
+* Sign the application binary
+* Notarize the application with Apple notarization service
+* Upload the resulting binaries to draft release
+* Publish the release
 
 ### Customize the configuration
 

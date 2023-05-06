@@ -35,7 +35,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.2.0 - [UNRELEASED]
+## v0.1.3 - [UNRELEASED]
+
+## v0.1.2 - 2023-05-06
+- Added package.json script release:publish to publish a draft release on GitHub and marks it as latest.
+- Renamed package.json scripts to align with the intended CI/CD steps.
 
 ## v0.1.1 - 2023-05-05
 - Changed parameter setting in release:public, removed =false from --draft.
