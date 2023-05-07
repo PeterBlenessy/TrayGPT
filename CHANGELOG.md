@@ -41,7 +41,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.5 - [UNRELEASED]
+## v0.1.6 - [UNRELEASED]
+
+## v0.1.5 - 2023-05-07
+- Changed application icons to be based on image generated using Bing Image Creator (DALL-E) with blue eyes.
+- Changed settings icon from settings -> tune, to be more in line with the slides used in settings component.
 
 ## v0.1.4 - 2023-05-07
 - Changed application icons to be based on image generated using Bing Image Creator (DALL-E).

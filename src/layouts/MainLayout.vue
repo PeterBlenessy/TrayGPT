@@ -10,8 +10,7 @@
 
                     <template v-slot:append>
                         <q-btn @click="handleUserInput" round dense flat icon="send" color="deep-orange" />
-                        <q-btn @click="() => { showSettings = true }" round dense flat icon="settings"
-                            color="deep-orange" />
+                        <q-btn @click="() => { showSettings = true }" round dense flat icon="tune" color="deep-orange" />
                     </template>
                 </q-input>
                 <q-dialog v-model="showSettings" position="top" transition-show="slide-down">
