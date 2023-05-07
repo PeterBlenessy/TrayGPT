@@ -19,23 +19,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [MAJOR]
 
 ### [MINOR]
+- Change application icons.
+- Add multi-language support.
+- Add support for storing the conversations.
+- Add support for OpenAI model configuration on a per conversation basis. Persist settings with conversation.
+- Add application description.
+- Add option to use model priming message.
+- Move OpenAI API calls to separate module so it can be used from other components.
+- Add support for generating images using dall-e as AI model.
+- Populate the list of supported modules by fetching them from OpenAI API.
 - Add support for displaying release notes in application.
 - Change coding style to using ';' at the end of lines.
 - Remove Vetur related VSCode extension related configs. 
 - Add lint rules: vue3-strongly-recommended.
 
 ### [PATCH]
-
-### [FUTURE]
-
-### [KNOWN-BUGS]
-- Sometimes, when darkMode is 'auto', and OS system wide dark mode setting is changed to 'auto', the header/input field turns black.
+- Change copy-to-clipboard icon color in dark mode from yellow -> dark-orange or primary
+- Fix. Sometimes, when darkMode is 'auto', and OS system wide dark mode setting is changed to 'auto', the header/input field turns black.
 - Fix the white flickering at app launch which still remains.
 
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.4 - [UNRELEASED]
+## v0.1.5 - [UNRELEASED]
+
+## v0.1.4 - 2023-05-07
+- Changed application icons to be based on image generated using Bing Image Creator (DALL-E).
 
 ## v0.1.3 - 2023-05-06
 - Fixed typo in package.json script yarn relesae -> release.
