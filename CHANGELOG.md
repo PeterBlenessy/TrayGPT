@@ -38,8 +38,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.7 - [UNRELEASED]
-- Changed copy-to-clipboard icon color in dark mode from yellow -> dark-orange
+## v0.1.8 - [UNRELEASED]
+
+## v0.1.7 - 2023-05-11
+- Changed copy-to-clipboard icon color from yellow -> dark-orange
 - Added padding arround the markdown container to increase the copy-to-clipboard button visibility by not overlaping with the text.
 - Added copy-to-clipboard to user text to simplify the use case of re-formulating a previous question.
 
