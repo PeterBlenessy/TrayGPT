@@ -2,15 +2,25 @@
     <q-layout view="hHh lpr fFf">
         <q-header :class="darkHeader == true ? 'bg-grey-10' : 'bg-white'">
             <q-toolbar class="no-padding" rounded-borders>
-                <q-input autofocus filled placeholder="Ask your question" style="min-width: 100%; max-width: 100%;"
-                    color="deep-orange" @keydown.enter="handleUserInput" v-model="userInput">
+                <q-input autofocus filled :placeholder="$t('questionInput.placeholder')"
+                    style="min-width: 100%; max-width: 100%;" color="deep-orange" @keydown.enter="handleUserInput"
+                    v-model="userInput">
                     <template v-slot:loading>
                         <q-spinner-comment color="deep-orange" />
                     </template>
 
                     <template v-slot:append>
-                        <q-btn @click="handleUserInput" round dense flat icon="send" color="deep-orange" />
-                        <q-btn @click="() => { showSettings = true }" round dense flat icon="tune" color="deep-orange" />
+                        <q-btn @click="handleUserInput" round dense flat icon="send" color="deep-orange">
+                            <q-tooltip transition-show="scale" transition-hide="scale">
+                                {{ $t('questionInput.tooltip.send') }}
+                            </q-tooltip>
+                        </q-btn>
+                        <q-btn @click="() => { showSettings = true }" round dense flat icon="tune" color="deep-orange">
+                            <q-tooltip transition-show="scale" transition-hide="scale">
+                                {{ $t('questionInput.tooltip.settings') }}
+                            </q-tooltip>
+                        </q-btn>
+
                     </template>
                 </q-input>
                 <q-dialog v-model="showSettings" position="top" transition-show="slide-down">
@@ -56,9 +66,10 @@ import { defineComponent, ref, onMounted, watch } from 'vue';
 import { useSettingsStore } from 'src/stores/settings-store.js';
 import { useConversationsStore } from 'src/stores/conversations-store.js';
 import { storeToRefs } from 'pinia';
-import AppSettings from "src/components/AppSettings.vue";
 import { useQuasar } from 'quasar';
+import AppSettings from "src/components/AppSettings.vue";
 import markdownItMermaid from '@datatraccorporation/markdown-it-mermaid'
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
     name: "MainLayout",
@@ -69,6 +80,8 @@ export default defineComponent({
 
     setup() {
         const $q = useQuasar();
+        const { t } = useI18n();
+
         const userInput = ref('')
         const conversationId = ref('');
         const conversation = ref([]);
@@ -151,15 +164,16 @@ export default defineComponent({
 
                     let errorMessage = ''
                     const apiErrors = {
-                        '401': { message: 'Invalid Authentication.', solution: 'Ensure the API key used is correct.' },
-                        '429': { message: 'Rate limit reached for requests, or the engine may be overloaded.', solution: 'Please retry your requests after a brief wait.' },
-                        '500': { message: 'The server had an error while processing your request.', solution: 'Retry your request after a brief wait and contact us if the issue persists.' },
+                        '401': { message: t('apiErrors.code401.message'), solution: t('apiErrors.code401.solution') },
+                        '429': { message: t('apiErrors.code429.message'), solution: t('apiErrors.code429.solution') },
+                        '500': { message: t('apiErrors.code500.message'), solution: t('apiErrors.code500.solution') }
                     }
 
                     if (error.response) {
                         errorMessage = error.response.status + '< /br>' + error.response.data
                     } else {
-                        errorMessage = apiErrors[error.message].message + '</br>' + apiErrors[error.message].solution
+                        const path = 'apiErrors.' + error.message;
+                        errorMessage = t(path + '.message') + '</br>' + t(path + '.solution')
                     }
 
                     $q.notify({

@@ -19,8 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [MAJOR]
 
 ### [MINOR]
-- Change application icons.
-- Add multi-language support.
 - Add support for storing the conversations.
 - Add support for OpenAI model configuration on a per conversation basis. Persist settings with conversation.
 - Add application description.
@@ -41,7 +39,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.6 - [UNRELEASED]
+## v0.1.7 - [UNRELEASED]
+
+## v0.1.6 - 2023-05-10
+- Removed dependency github-markdown-css.
+- Added package.json script build:linux to build for linux.
+- Added support for using i18n for localization. Only supporting en-US for now.
 
 ## v0.1.5 - 2023-05-07
 - Changed application icons to be based on image generated using Bing Image Creator (DALL-E) with blue eyes.

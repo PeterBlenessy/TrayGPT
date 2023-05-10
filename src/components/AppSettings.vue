@@ -7,8 +7,8 @@
                     <q-icon name="dark_mode" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-item-label>Dark mode</q-item-label>
-                    <q-item-label caption>Toggle dark/light mode</q-item-label>
+                    <q-item-label>{{ $t('settings.darkMode.label') }}</q-item-label>
+                    <q-item-label caption>{{ $t('settings.darkMode.caption') }}</q-item-label>
                 </q-item-section>
                 <q-item-section side>
                     <q-toggle v-model="darkMode" toggle-indeterminate indeterminate-value='auto' flat dense round
@@ -23,8 +23,12 @@
                     <q-icon name="key" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-input :model-value="apiKey" @change="val => { apiKey = val }" label="OpenAI API Key"
-                        placeholder="OpenAI API Key" dense />
+                    <q-input :model-value="apiKey" @change="val => { apiKey = val }"
+                        :label="$t('settings.openAI.apiKey.label')" :placeholder="$t('settings.openAI.apiKey.placeholder')"
+                        dense />
+                    <q-tooltip max-width="300px" transition-show="scale" transition-hide="scale">
+                        {{ $t('settings.openAI.apiKey.tooltip') }}
+                    </q-tooltip>
                 </q-item-section>
             </q-item>
 
@@ -33,8 +37,11 @@
                     <q-icon name="model_training" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-item-label caption>AI model</q-item-label>
+                    <q-item-label caption>{{ $t('settings.openAI.model.label') }}</q-item-label>
                     <q-select v-model="model" :options="modelOptions" dense options-dense />
+                    <q-tooltip max-width="300px" transition-show="scale" transition-hide="scale">
+                        {{ $t('settings.openAI.model.tooltip') }}
+                    </q-tooltip>
                 </q-item-section>
             </q-item>
 
@@ -43,11 +50,12 @@
                     <q-icon name="short_text" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-item-label caption>Max tokens ({{ maxTokens }})</q-item-label>
+                    <q-item-label caption>{{ $t('settings.openAI.maxTokens.label') }} ({{ maxTokens }})</q-item-label>
                     <q-slider :model-value="maxTokens" @change="val => { maxTokens = val }" :min="64" :max="4096" :step="16"
                         :markers="1024" label color="deep-orange" />
-                    <q-tooltip max-width="300px">The maximum number of tokens to generate in the chat
-                        completion.</q-tooltip>
+                    <q-tooltip max-width="300px" transition-show="scale" transition-hide="scale">
+                        {{ $t('settings.openAI.maxTokens.tooltip') }}
+                    </q-tooltip>
                 </q-item-section>
             </q-item>
 
@@ -56,10 +64,11 @@
                     <q-icon name="alt_route" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-item-label caption>Number of choices ({{ choices }})</q-item-label>
+                    <q-item-label caption>{{ $t('settings.openAI.choices.label') }} ({{ choices }})</q-item-label>
                     <q-slider :model-value="choices" @change="val => { choices = val }" snap :min="1" :max="4" :step="1"
                         :markers="1" label color="deep-orange" />
-                    <q-tooltip max-width="300px">Number of chat completion choices to generate for each input message.
+                    <q-tooltip max-width="300px" transition-show="scale" transition-hide="scale">
+                        {{ $t('settings.openAI.choices.tooltip') }}
                     </q-tooltip>
                 </q-item-section>
             </q-item>
@@ -69,12 +78,11 @@
                     <q-icon name="thermostat" color="deep-orange" />
                 </q-item-section>
                 <q-item-section>
-                    <q-item-label caption>Temperature ({{ temperature }})</q-item-label>
+                    <q-item-label caption>{{ $t('settings.openAI.temperature.label') }} ({{ temperature }})</q-item-label>
                     <q-slider :model-value="temperature" @change="val => { temperature = val }" :min="0" :max="2"
                         :step="0.1" :markers="0.5" label color="deep-orange" />
-                    <q-tooltip max-width="300px">Temperature is a measure of the randomness in the text. Lower values
-                        will
-                        result in more predictable text, while higher values will result in more surprising text.
+                    <q-tooltip max-width="300px" transition-show="scale" transition-hide="scale">
+                        {{ $t('settings.openAI.temperature.tooltip') }}
                     </q-tooltip>
 
                 </q-item-section>
@@ -84,20 +92,16 @@
 </template>
 
 <script>
-import { defineComponent, watch } from "vue";
+import { defineComponent } from "vue";
 import { useSettingsStore } from 'src/stores/settings-store.js'
-import { useQuasar } from 'quasar';
 import { storeToRefs } from "pinia";
 
 export default defineComponent({
     name: "AppSettings",
 
     setup() {
-        const $q = useQuasar();
         const settingsStore = useSettingsStore();
         const { darkMode, apiKey, model, modelOptions, maxTokens, choices, temperature } = storeToRefs(settingsStore);
-
-        //watch(darkMode, () => $q.dark.set(darkMode.value))
 
         return {
             darkMode,

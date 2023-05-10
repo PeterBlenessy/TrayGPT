@@ -1,6 +1,6 @@
 {
     "name": "traygpt",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "description": "TrayGPT is a platform-independent application that lives in the tray bar of your favorite OS, and is compatible with Windows, macOS, and Linux. It is powered by Electron, Vuew.js and Quazar, and provides a simple and intuitive user experience. It allows users to communicate with GPT-based AI in a natural and conversational way, making it easy to access and generate information. It has build in chat session management, which enables users to easily dust off and return to those long forgotten topics.",
     "productName": "TrayGPT",
     "author": "Peter Blenessy <peter.blenessy@gmail.com>",
@@ -11,6 +11,7 @@
         "dev": "quasar dev -m electron",
         "build:mac": "quasar build -m electron -T mac --publish always",
         "build:win": "quasar build -m electron -T win --publish always",
+        "build:linux": "quasar build -m electron -T linux --publish always",
         "build:all": "quasar build -m electron -T all --publish always",
         "release:draft": "CHANGELOG=$(sed -n \"/^## v$npm_package_version/,/^## /p\" CHANGELOG.md | sed '1d;$d') && gh release create v$npm_package_version --draft --title v$npm_package_version --notes \"$CHANGELOG\" --repo PeterBlenessy/traygpt",
         "release:publish": "gh release edit v$npm_package_version --draft=false --latest",
@@ -22,7 +23,6 @@
         "@quasar/extras": "^1.16.3",
         "electron-log": "^4.4.8",
         "electron-updater": "^5.3.0",
-        "github-markdown-css": "^5.2.0",
         "localforage": "^1.10.0",
         "pinia": "^2.0.11",
         "quasar": "^2.11.10",
