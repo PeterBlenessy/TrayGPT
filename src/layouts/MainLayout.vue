@@ -44,8 +44,8 @@
                                     <q-skeleton type="text" width="75%" />
                                 </q-item-label>
                                 <q-item-label v-else>
-                                    <q-markdown :show-copy="message.role == 'user' ? false : true" copy-icon="content_copy"
-                                        no-line-numbers :src="message.content" :plugins="mdPlugins" />
+                                    <q-markdown :show-copy=true copy-icon="content_copy" no-line-numbers
+                                        :src="message.content" :plugins="mdPlugins" />
                                 </q-item-label>
                             </q-item-section>
                         </q-item>
@@ -202,10 +202,13 @@ export default defineComponent({
 });
 </script>
 <style lang="sass">
+.q-markdown
+    padding-right: 45px 
+
 .q-markdown__copy
   position: absolute
   top: 0px
   right: 0px
-  color: $deep-orange
-
+  color: $deep-orange !important
+  fill: $deep-orange
 </style>

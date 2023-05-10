@@ -32,7 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add lint rules: vue3-strongly-recommended.
 
 ### [PATCH]
-- Change copy-to-clipboard icon color in dark mode from yellow -> dark-orange or primary
 - Fix. Sometimes, when darkMode is 'auto', and OS system wide dark mode setting is changed to 'auto', the header/input field turns black.
 - Fix the white flickering at app launch which still remains.
 
@@ -40,6 +39,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
 ## v0.1.7 - [UNRELEASED]
+- Changed copy-to-clipboard icon color in dark mode from yellow -> dark-orange
+- Added padding arround the markdown container to increase the copy-to-clipboard button visibility by not overlaping with the text.
+- Added copy-to-clipboard to user text to simplify the use case of re-formulating a previous question.
 
 ## v0.1.6 - 2023-05-10
 - Removed dependency github-markdown-css.
