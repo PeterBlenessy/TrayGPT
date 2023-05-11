@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [MAJOR]
 
 ### [MINOR]
-- Add support for storing the conversations.
+- Add support for storing conversations individually. Andobviously a conversations list.
 - Add support for OpenAI model configuration on a per conversation basis. Persist settings with conversation.
 - Add application description.
 - Add option to use model priming message.
@@ -34,11 +34,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [PATCH]
 - Fix. Sometimes, when darkMode is 'auto', and OS system wide dark mode setting is changed to 'auto', the header/input field turns black.
 - Fix the white flickering at app launch which still remains.
+- Fix the Esc shortcut which minimizes the app steels Esc from other apps. Try to make it only work when app is in focus, or pass the event through to other apps.
+- Change relevant Notofy messages to be sticky until closed so the user has time to read and understand what went wrong.
+- Change copy-to-clipboard text color from yellow to dark-orange.
+- Fix responses with API errors being animated when next response is awaited.
+- Fix settings and conversations are stored as keys, when it should be tables (storeName).
 
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.8 - [UNRELEASED]
+## v0.1.9 - [UNRELEASED]
+
+## v0.1.8 - 2023-05-12
+- Add support for storing conversation in IndexeDB.
+- Add support to restore last conversation. 
+- Add option to clear conversations, both in ui and in dB.
+- Removed storeName: settings from storage configuration IN pinia-localforage-plugin.js as that is not the only storeName (table) we are using.
 
 ## v0.1.7 - 2023-05-11
 - Changed copy-to-clipboard icon color from yellow -> dark-orange

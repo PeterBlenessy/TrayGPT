@@ -15,6 +15,16 @@
                                 {{ $t('questionInput.tooltip.send') }}
                             </q-tooltip>
                         </q-btn>
+                        <q-btn @click="restoreLastConversation" round dense flat icon="restore" color="deep-orange">
+                            <q-tooltip transition-show="scale" transition-hide="scale">
+                                {{ $t('questionInput.tooltip.restore') }}
+                            </q-tooltip>
+                        </q-btn>
+                        <q-btn @click="clearConversation" round dense flat icon="clear_all" color="deep-orange">
+                            <q-tooltip transition-show="scale" transition-hide="scale">
+                                {{ $t('questionInput.tooltip.clear') }}
+                            </q-tooltip>
+                        </q-btn>
                         <q-btn @click="() => { showSettings = true }" round dense flat icon="tune" color="deep-orange">
                             <q-tooltip transition-show="scale" transition-hide="scale">
                                 {{ $t('questionInput.tooltip.settings') }}
@@ -62,7 +72,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch } from 'vue';
+import { defineComponent, ref, onMounted, watch, onUpdated } from 'vue';
 import { useSettingsStore } from 'src/stores/settings-store.js';
 import { useConversationsStore } from 'src/stores/conversations-store.js';
 import { storeToRefs } from 'pinia';
@@ -83,31 +93,41 @@ export default defineComponent({
         const { t } = useI18n();
 
         const userInput = ref('')
+        const conversationView = ref(null);
         const conversationId = ref('');
         const conversation = ref([]);
-        const conversationView = ref(null);
         const loading = ref(false);
         const darkHeader = ref(true);
-        const store = useConversationsStore();
+
+        const conversationsStore = useConversationsStore();
+        const { conversations } = storeToRefs(conversationsStore);
 
         const settingsStore = useSettingsStore();
-        const { darkMode, apiKey, model, maxTokens, choices, temperature } = storeToRefs(settingsStore);
-
-        // watch(userInput, () => {
-        //     conversation.value.push({ role: "user", content: userInput.value });
-        //     handleUserInput();
-        // });
+        const { darkMode, storeConversations, apiKey, model, maxTokens, choices, temperature } = storeToRefs(settingsStore);
 
         // Sets Quasar dark mode plugin value based on stored mode.
         function setDarkMode() {
             $q.dark.set(darkMode.value)
             darkHeader.value = $q.dark.isActive ? true : false
         }
-        // Make sure to set the stored dark mode for app
+        // When app starts, set the stored dark mode for app
         onMounted(() => setDarkMode());
         // Watch runtime changes to dark mode
         watch(darkMode, () => setDarkMode());
 
+        // Load conversation from store
+        function restoreLastConversation() {
+            if (storeConversations && conversations.value.length > 0) {
+                conversation.value = conversation.value.concat(conversations.value);
+            }
+        }
+        // Clear conversation, both in ui and in store
+        function clearConversation() {
+            conversation.value = [];
+            conversations.value = [];
+        }
+
+        //Handle user input
         async function handleUserInput() {
 
             // Store question in conversation
@@ -118,7 +138,7 @@ export default defineComponent({
             conversation.value.unshift(message);
 
             // Store the question
-            store.addMessage(conversationId, message);
+            if (storeConversations) conversations.value.unshift(message);
 
             const requestOptions = {
                 method: "POST",
@@ -151,23 +171,17 @@ export default defineComponent({
                     return response.json()
                 })
                 .then(jsonResponse => {
-                    // Format the response as HTML markup
+                    // Extract the message from the response
                     message = jsonResponse.choices[0].message;
                     conversationId.value = jsonResponse.id;
                     conversation.value.shift();
                     // Add the response to the conversation list
                     conversation.value.unshift(message);
                     // Store the response
-                    store.addMessage(conversationId, message);
+                    if (storeConversations) conversations.value.unshift(message);
                 })
                 .catch(error => {
-
                     let errorMessage = ''
-                    const apiErrors = {
-                        '401': { message: t('apiErrors.code401.message'), solution: t('apiErrors.code401.solution') },
-                        '429': { message: t('apiErrors.code429.message'), solution: t('apiErrors.code429.solution') },
-                        '500': { message: t('apiErrors.code500.message'), solution: t('apiErrors.code500.solution') }
-                    }
 
                     if (error.response) {
                         errorMessage = error.response.status + '< /br>' + error.response.data
@@ -195,6 +209,8 @@ export default defineComponent({
             conversationView,
             loading,
             showSettings: ref(false),
+            restoreLastConversation,
+            clearConversation,
             darkHeader,
             mdPlugins: [markdownItMermaid]
         };
@@ -206,9 +222,9 @@ export default defineComponent({
     padding-right: 45px 
 
 .q-markdown__copy
-  position: absolute
-  top: 0px
-  right: 0px
-  color: $deep-orange !important
-  fill: $deep-orange
+    position: absolute
+    top: 0px
+    right: 0px
+    color: $deep-orange !important
+    fill: $deep-orange
 </style>

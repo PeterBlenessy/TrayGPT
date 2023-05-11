@@ -3,7 +3,6 @@ import localforage from 'localforage'
 // Initialize LocalForage instance
 const storage = localforage.createInstance({
     name: 'traygpt',
-    storeName: 'settings',
     description: 'Application state persistence'
 });
 

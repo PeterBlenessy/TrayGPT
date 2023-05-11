@@ -18,6 +18,22 @@
 
             <q-separator />
 
+            <!-- Add option to store conversations -->
+            <q-item>
+                <q-item-section avatar>
+                    <q-icon name="save" color="deep-orange" />
+                </q-item-section>
+                <q-item-section>
+                    <q-item-label>{{ $t('settings.storeConversations.label') }}</q-item-label>
+                    <q-item-label caption>{{ $t('settings.storeConversations.caption') }}</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                    <q-toggle v-model="storeConversations" flat dense round color="deep-orange" />
+                </q-item-section>
+            </q-item>
+
+            <q-separator />
+
             <q-item>
                 <q-item-section avatar>
                     <q-icon name="key" color="deep-orange" />
@@ -101,10 +117,11 @@ export default defineComponent({
 
     setup() {
         const settingsStore = useSettingsStore();
-        const { darkMode, apiKey, model, modelOptions, maxTokens, choices, temperature } = storeToRefs(settingsStore);
+        const { darkMode, storeConversations, apiKey, model, modelOptions, maxTokens, choices, temperature } = storeToRefs(settingsStore);
 
         return {
             darkMode,
+            storeConversations,
             apiKey,
             model,
             modelOptions,

@@ -11,7 +11,9 @@ export default {
         placeholder: 'Ask your question',
         tooltip: {
             send: 'Send question',
-            settings: 'Open settings',
+            settings: 'Settings',
+            clear: 'Clear messages',
+            restore: 'Restore latest messages'
         },
     },
 
@@ -20,6 +22,11 @@ export default {
             label: 'Dark mode',
             caption: 'Toggle dark/light mode'
         },
+        storeConversations: {
+            label: 'Store conversations',
+            caption: 'Store conversations in local storage'
+        },
+
         openAI: {
             apiKey: {
                 label: 'OpenAI API key',
