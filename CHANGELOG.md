@@ -44,19 +44,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.10 - [UNRELEASED]
+## v0.1.11 - [UNRELEASED]
 
-## v0.1.9 - 2023-05-12
+## v0.1.10 - 2023-05-11
+- Fixed dates in releases.
+
+## v0.1.9 - 2023-05-11
 - Fixed i18n typos.
 - Add option to send only the latest question or entire conversation when calling OpenAI API. Plus settings.
 
-## v0.1.8 - 2023-05-12
+## v0.1.8 - 2023-05-10
 - Add support for storing conversation in IndexeDB.
 - Add support to restore last conversation. 
 - Add option to clear conversations, both in ui and in dB.
 - Removed storeName: settings from storage configuration IN pinia-localforage-plugin.js as that is not the only storeName (table) we are using.
 
-## v0.1.7 - 2023-05-11
+## v0.1.7 - 2023-05-10
 - Changed copy-to-clipboard icon color from yellow -> dark-orange
 - Added padding arround the markdown container to increase the copy-to-clipboard button visibility by not overlaping with the text.
 - Added copy-to-clipboard to user text to simplify the use case of re-formulating a previous question.
