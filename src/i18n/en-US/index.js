@@ -4,7 +4,7 @@
 export default {
     general: {
         failed: 'Action failed',
-        success: 'Action was successful',
+        success: 'Action was successful'
     },
 
     questionInput: {

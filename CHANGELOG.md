@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [MAJOR]
 
 ### [MINOR]
-- Add support for storing conversations individually. Andobviously a conversations list.
+- Add support for storing conversations individually. And obviously a conversations list.
 - Add support for OpenAI model configuration on a per conversation basis. Persist settings with conversation.
 - Add application description.
 - Add option to use model priming message.
@@ -35,23 +35,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix. Sometimes, when darkMode is 'auto', and OS system wide dark mode setting is changed to 'auto', the header/input field turns black.
 - Fix the white flickering at app launch which still remains.
 - Fix the Esc shortcut which minimizes the app steels Esc from other apps. Try to make it only work when app is in focus, or pass the event through to other apps.
-- Change relevant Notofy messages to be sticky until closed so the user has time to read and understand what went wrong.
-- Change copy-to-clipboard text color from yellow to dark-orange.
-- Fix responses with API errors being animated when next response is awaited.
 - Fix settings and conversations are stored as keys, when it should be tables (storeName).
-- Sending wrong formated messages to OpenAI API, returns error code 400. Not documented.
 
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.11 - [UNRELEASED]
+## v0.1.12 - [UNRELEASED]
+
+## v0.1.11 - 2023-05-12
+- Added notification for unknown error codes from OpenAI API. e.g. 400 when message is not in correct format.
+- Changed spinner as message.content to Waiting..., while waiting for OpenAI API response.
+- Fixed earlier responses with API errors being animated when next response is awaited.
+- Removed no-line-numbers property from QMarkdown component, to display line numbers for syntax highlighted text.
+- Changed copy-to-clipboard text color from yellow to dark-orange.
+- Added close button (icon) and time-out progress to API error Notify messages.
 
 ## v0.1.10 - 2023-05-11
 - Fixed dates in releases.
 
 ## v0.1.9 - 2023-05-11
 - Fixed i18n typos.
-- Add option to send only the latest question or entire conversation when calling OpenAI API. Plus settings.
+- Added option to send only the latest question or entire conversation when calling OpenAI API. Plus settings.
 
 ## v0.1.8 - 2023-05-10
 - Add support for storing conversation in IndexeDB.

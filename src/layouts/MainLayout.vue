@@ -49,13 +49,14 @@
                                     :color="message.role == 'user' ? 'deep-orange' : 'primary'" />
                             </q-item-section>
                             <q-item-section top>
-                                <q-item-label v-if="loading && message.role == 'computer' && message.content !== ''">
+                                <q-item-label
+                                    v-if="loading && message.role == 'computer' && message.content == 'Waiting...'">
                                     <q-skeleton type="text" width="100%" />
                                     <q-skeleton type="text" width="75%" />
                                 </q-item-label>
                                 <q-item-label v-else>
-                                    <q-markdown :show-copy=true copy-icon="content_copy" no-line-numbers
-                                        :src="message.content" :plugins="mdPlugins" />
+                                    <q-markdown :show-copy=true copy-icon="content_copy" :src="message.content"
+                                        :plugins="mdPlugins" />
                                 </q-item-label>
                             </q-item-section>
                         </q-item>
@@ -162,7 +163,7 @@ export default defineComponent({
             };
 
             loading.value = true;
-            message = { role: "computer", content: '<q-spinner-dots color="primary" size="2em" />' };
+            message = { role: "computer", content: 'Waiting...' };
             conversation.value.unshift(message);
 
             fetch("https://api.openai.com/v1/chat/completions", requestOptions)
@@ -175,6 +176,7 @@ export default defineComponent({
                     // Extract the message from the response
                     message = jsonResponse.choices[0].message;
                     conversationId.value = jsonResponse.id;
+                    // Remove the empty message that triggeres the loading skeleton.
                     conversation.value.shift();
                     // Add the response to the conversation list
                     conversation.value.unshift(message);
@@ -188,14 +190,27 @@ export default defineComponent({
                         errorMessage = error.response.status + '< /br>' + error.response.data
                     } else {
                         const path = 'apiErrors.' + error.message;
-                        errorMessage = t(path + '.message') + '</br>' + t(path + '.solution')
+
+                        // Check if error message is defined in i18n language files
+                        if ((path + '.message') == t(path + '.message')) {
+                            errorMessage = "Unknown OpenAI API error code: " + error.message;
+                            console.log(errorMessage);
+                        } else {
+                            errorMessage = t(path + '.message') + '</br>' + t(path + '.solution')
+                        }
                     }
 
                     $q.notify({
                         type: 'negative',
                         position: 'top',
                         html: true,
-                        message: errorMessage
+                        progress: true,
+                        message: errorMessage,
+                        actions: [{
+                            icon: 'close',
+                            color: 'white',
+                            handler: () => { /* ... */ }
+                        }]
                     })
                 })
                 .finally(() => {
@@ -219,13 +234,18 @@ export default defineComponent({
 });
 </script>
 <style lang="sass">
+// Markdown div styling
 .q-markdown
     padding-right: 45px 
 
+// Copy-to-clipboard notification
+.text-amber
+    color: $deep-orange !important
+
+// Copy-to-clipboard icon
 .q-markdown__copy
     position: absolute
     top: 0px
     right: 0px
     color: $deep-orange !important
-    fill: $deep-orange
 </style>
