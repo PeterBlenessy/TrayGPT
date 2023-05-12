@@ -103,7 +103,7 @@ export default defineComponent({
         const { conversations } = storeToRefs(conversationsStore);
 
         const settingsStore = useSettingsStore();
-        const { darkMode, storeConversations, apiKey, model, maxTokens, choices, temperature } = storeToRefs(settingsStore);
+        const { darkMode, storeConversations, useConversationMode, apiKey, model, maxTokens, choices, temperature } = storeToRefs(settingsStore);
 
         // Sets Quasar dark mode plugin value based on stored mode.
         function setDarkMode() {
@@ -138,8 +138,9 @@ export default defineComponent({
             conversation.value.unshift(message);
 
             // Store the question
-            if (storeConversations) conversations.value.unshift(message);
+            if (storeConversations.value) conversations.value.unshift(message);
 
+            let messages = !useConversationMode.value ? [message] : conversations.value;
             const requestOptions = {
                 method: "POST",
                 headers: {
@@ -148,10 +149,10 @@ export default defineComponent({
                 },
                 body: JSON.stringify({
                     model: model.value,
-                    messages: [{
-                        ...{ role: "system", content: "You are a helpful assistant. You respond like you were giving examples of how to format text in markdown format using GitHub flavor." },
-                        ...message
-                    }],
+                    messages: [
+                        { role: "system", content: "You are a helpful assistant. You respond like you were giving examples of how to format text in markdown format using GitHub flavor." },
+                        ...messages.reverse()
+                    ],
                     max_tokens: maxTokens.value,
                     temperature: temperature.value,
                     stream: false,
@@ -178,7 +179,7 @@ export default defineComponent({
                     // Add the response to the conversation list
                     conversation.value.unshift(message);
                     // Store the response
-                    if (storeConversations) conversations.value.unshift(message);
+                    if (storeConversations.value) conversations.value.unshift(message);
                 })
                 .catch(error => {
                     let errorMessage = ''

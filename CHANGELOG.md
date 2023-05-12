@@ -39,11 +39,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change copy-to-clipboard text color from yellow to dark-orange.
 - Fix responses with API errors being animated when next response is awaited.
 - Fix settings and conversations are stored as keys, when it should be tables (storeName).
+- Sending wrong formated messages to OpenAI API, returns error code 400. Not documented.
 
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.9 - [UNRELEASED]
+## v0.1.10 - [UNRELEASED]
+
+## v0.1.9 - 2023-05-12
+- Fixed i18n typos.
+- Add option to send only the latest question or entire conversation when calling OpenAI API. Plus settings.
 
 ## v0.1.8 - 2023-05-12
 - Add support for storing conversation in IndexeDB.

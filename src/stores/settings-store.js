@@ -7,6 +7,7 @@ export const useSettingsStore = defineStore('settings', {
             // Application settings
             darkMode: 'auto',
             storeConversations: true,
+            useConversationMode: false,
 
             // OpenAI settings
             apiKey: '',

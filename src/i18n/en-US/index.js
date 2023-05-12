@@ -26,6 +26,10 @@ export default {
             label: 'Store conversations',
             caption: 'Store conversations in local storage'
         },
+        useConversationMode: {
+            label: 'Use conversation mode',
+            caption: 'Send individual messages or entire conversation'
+        },
 
         openAI: {
             apiKey: {
@@ -42,11 +46,11 @@ export default {
                 tooltip: 'The maximum number of tokens in the response.'
             },
             choices: {
-                label: 'Max tokens',
+                label: 'Choices',
                 tooltip: 'Number of chat completion choices to generate for each input message.'
             },
             temperature: {
-                label: 'Max tokens',
+                label: 'Temperature',
                 tooltip: 'Temperature is a measure of the randomness in the text. Lower values will result in more predictable text, while higher values will result in more surprising text.'
             }
         }
