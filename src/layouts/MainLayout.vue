@@ -73,14 +73,14 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch, onUpdated } from 'vue';
-import { useSettingsStore } from 'src/stores/settings-store.js';
-import { useConversationsStore } from 'src/stores/conversations-store.js';
-import { storeToRefs } from 'pinia';
-import { useQuasar } from 'quasar';
-import AppSettings from "src/components/AppSettings.vue";
+import { defineComponent, ref, onMounted, watch } from 'vue'
+import { useSettingsStore } from 'src/stores/settings-store.js'
+import { useConversationsStore } from 'src/stores/conversations-store.js'
+import { storeToRefs } from 'pinia'
+import { useQuasar } from 'quasar'
+import AppSettings from "src/components/AppSettings.vue"
 import markdownItMermaid from '@datatraccorporation/markdown-it-mermaid'
-import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
     name: "MainLayout",
@@ -90,21 +90,20 @@ export default defineComponent({
     },
 
     setup() {
-        const $q = useQuasar();
-        const { t } = useI18n();
+        const $q = useQuasar()
+        const { t } = useI18n()
 
         const userInput = ref('')
-        const conversationView = ref(null);
-        const conversationId = ref('');
-        const conversation = ref([]);
-        const loading = ref(false);
-        const darkHeader = ref(true);
+        const conversationView = ref(null)
+        const conversation = ref([])
+        const loading = ref(false)
+        const darkHeader = ref(true)
 
-        const conversationsStore = useConversationsStore();
-        const { conversations } = storeToRefs(conversationsStore);
+        const conversationsStore = useConversationsStore()
+        const { conversations } = storeToRefs(conversationsStore)
 
-        const settingsStore = useSettingsStore();
-        const { darkMode, storeConversations, useConversationMode, apiKey, model, maxTokens, choices, temperature } = storeToRefs(settingsStore);
+        const settingsStore = useSettingsStore()
+        const { darkMode, useConversationMode, apiKey, model, maxTokens, choices, temperature } = storeToRefs(settingsStore)
 
         // Sets Quasar dark mode plugin value based on stored mode.
         function setDarkMode() {
@@ -112,36 +111,36 @@ export default defineComponent({
             darkHeader.value = $q.dark.isActive ? true : false
         }
         // When app starts, set the stored dark mode for app
-        onMounted(() => setDarkMode());
+        onMounted(() => setDarkMode())
         // Watch runtime changes to dark mode
-        watch(darkMode, () => setDarkMode());
+        watch(darkMode, () => setDarkMode())
 
         // Load conversation from store
         function restoreLastConversation() {
-            if (storeConversations && conversations.value.length > 0) {
-                conversation.value = conversation.value.concat(conversations.value);
+            if (conversations.value.length > 0) {
+                conversation.value = [...conversation.value, ...conversations.value]
             }
         }
         // Clear conversation, both in ui and in store
         function clearConversation() {
-            conversation.value = [];
-            conversations.value = [];
+            conversation.value = []
+            conversations.value = []
         }
 
         //Handle user input
         async function handleUserInput() {
 
             // Store question in conversation
-            let message = { role: "user", content: userInput.value };
+            let message = { role: "user", content: userInput.value }
             userInput.value = ''
 
             // Add the question to the conversation list
-            conversation.value.unshift(message);
+            conversation.value.unshift(message)
 
             // Store the question
-            if (storeConversations.value) conversations.value.unshift(message);
+            conversations.value.unshift(message)
 
-            let messages = !useConversationMode.value ? [message] : conversations.value;
+            let messages = !useConversationMode.value ? [message] : conversations.value
             const requestOptions = {
                 method: "POST",
                 headers: {
@@ -160,11 +159,11 @@ export default defineComponent({
                     n: choices.value,
                     stop: ["\nUSER: ", "\nAI: "]
                 }),
-            };
+            }
 
-            loading.value = true;
-            message = { role: "computer", content: 'Waiting...' };
-            conversation.value.unshift(message);
+            loading.value = true
+            message = { role: "computer", content: 'Waiting...' }
+            conversation.value.unshift(message)
 
             fetch("https://api.openai.com/v1/chat/completions", requestOptions)
                 .then(response => {
@@ -174,14 +173,13 @@ export default defineComponent({
                 })
                 .then(jsonResponse => {
                     // Extract the message from the response
-                    message = jsonResponse.choices[0].message;
-                    conversationId.value = jsonResponse.id;
+                    message = jsonResponse.choices[0].message
                     // Remove the empty message that triggeres the loading skeleton.
-                    conversation.value.shift();
+                    conversation.value.shift()
                     // Add the response to the conversation list
-                    conversation.value.unshift(message);
+                    conversation.value.unshift(message)
                     // Store the response
-                    if (storeConversations.value) conversations.value.unshift(message);
+                    conversations.value.unshift(message)
                 })
                 .catch(error => {
                     let errorMessage = ''
@@ -189,12 +187,12 @@ export default defineComponent({
                     if (error.response) {
                         errorMessage = error.response.status + '< /br>' + error.response.data
                     } else {
-                        const path = 'apiErrors.' + error.message;
+                        const path = 'apiErrors.' + error.message
 
                         // Check if error message is defined in i18n language files
                         if ((path + '.message') == t(path + '.message')) {
-                            errorMessage = "Unknown OpenAI API error code: " + error.message;
-                            console.log(errorMessage);
+                            errorMessage = "Unknown OpenAI API error code: " + error.message
+                            console.log(errorMessage)
                         } else {
                             errorMessage = t(path + '.message') + '</br>' + t(path + '.solution')
                         }
@@ -214,7 +212,7 @@ export default defineComponent({
                     })
                 })
                 .finally(() => {
-                    loading.value = false;
+                    loading.value = false
                 })
         }
 
@@ -229,9 +227,9 @@ export default defineComponent({
             clearConversation,
             darkHeader,
             mdPlugins: [markdownItMermaid]
-        };
+        }
     },
-});
+})
 </script>
 <style lang="sass">
 // Markdown div styling

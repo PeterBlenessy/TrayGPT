@@ -1,5 +1,5 @@
 <template>
-    <q-card style="width: 350px;">
+    <q-card style="width: 350px">
         <q-list>
 
             <q-item>
@@ -17,20 +17,6 @@
             </q-item>
 
             <q-separator />
-
-            <!-- Add option to store conversations -->
-            <q-item>
-                <q-item-section avatar>
-                    <q-icon name="save" color="deep-orange" />
-                </q-item-section>
-                <q-item-section>
-                    <q-item-label>{{ $t('settings.storeConversations.label') }}</q-item-label>
-                    <q-item-label caption>{{ $t('settings.storeConversations.caption') }}</q-item-label>
-                </q-item-section>
-                <q-item-section side>
-                    <q-toggle v-model="storeConversations" flat dense round color="deep-orange" />
-                </q-item-section>
-            </q-item>
 
             <!-- Add option to store conversations -->
             <q-item>
@@ -122,20 +108,19 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from "vue"
 import { useSettingsStore } from 'src/stores/settings-store.js'
-import { storeToRefs } from "pinia";
+import { storeToRefs } from "pinia"
 
 export default defineComponent({
     name: "AppSettings",
 
     setup() {
-        const settingsStore = useSettingsStore();
-        const { darkMode, storeConversations, useConversationMode, apiKey, model, modelOptions, maxTokens, choices, temperature } = storeToRefs(settingsStore);
+        const settingsStore = useSettingsStore()
+        const { darkMode, useConversationMode, apiKey, model, modelOptions, maxTokens, choices, temperature } = storeToRefs(settingsStore)
 
         return {
             darkMode,
-            storeConversations,
             useConversationMode,
             apiKey,
             model,
@@ -143,7 +128,7 @@ export default defineComponent({
             maxTokens,
             choices,
             temperature
-        };
+        }
     },
-});
+})
 </script>

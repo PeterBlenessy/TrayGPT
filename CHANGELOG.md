@@ -36,12 +36,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix the white flickering at app launch which still remains.
 - Fix the Esc shortcut which minimizes the app steels Esc from other apps. Try to make it only work when app is in focus, or pass the event through to other apps.
 - Fix settings and conversations are stored as keys, when it should be tables (storeName).
+- Fix restore conversations can be done multiple times.
+- Fix some error messages are shown as OpenAI API errors, when they are not.
 
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.12 - [UNRELEASED]
+## v0.1.13 - [UNRELEASED]
 
+## v0.1.12 - 2023-05-14
+- Removed incosistently usesed semicolons at end of lines.
+- Removed optional persistency of conversations. Now always persisting.
 ## v0.1.11 - 2023-05-12
 - Added notification for unknown error codes from OpenAI API. e.g. 400 when message is not in correct format.
 - Changed spinner as message.content to Waiting..., while waiting for OpenAI API response.

@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
 
 export const useSettingsStore = defineStore('settings', {
 
@@ -6,7 +6,6 @@ export const useSettingsStore = defineStore('settings', {
         return {
             // Application settings
             darkMode: 'auto',
-            storeConversations: true,
             useConversationMode: false,
 
             // OpenAI settings

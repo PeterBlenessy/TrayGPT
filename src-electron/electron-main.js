@@ -50,7 +50,7 @@ function createWindow() {
         // if on DEV or Production with debug enabled
         //mainWindow.webContents.openDevTools()
     } else {
-        // we're on production; no access to devtools pls
+        // we're on production no access to devtools pls
         mainWindow.webContents.on('devtools-opened', () => {
             mainWindow.webContents.closeDevTools()
         })
@@ -59,14 +59,14 @@ function createWindow() {
     // Don't show the window until it's ready. This should prevent any white flickering
     mainWindow.once('ready-to-show', () => {
         // Check for updates
-        autoUpdater.logger = logger;
-        autoUpdater.checkForUpdatesAndNotify();
-        logger.info('registered-auto-update');
+        autoUpdater.logger = logger
+        autoUpdater.checkForUpdatesAndNotify()
+        logger.info('registered-auto-update')
 
         setInterval(() => {
-            autoUpdater.checkForUpdatesAndNotify();
-            logger.info('registered-auto-update refresh interval');
-        }, 1000 * 60 * 60); // Check every hour
+            autoUpdater.checkForUpdatesAndNotify()
+            logger.info('registered-auto-update refresh interval')
+        }, 1000 * 60 * 60) // Check every hour
 
         mainWindow.show()
     })
@@ -88,7 +88,7 @@ function createWindow() {
     mainWindow.webContents.on('preferred-size-changed', (event, size) => {
         // Check if the size is not zero (happens for some reason when settings dialog is opened)
         if (size.width === 0 || size.height === 0) {
-            return;
+            return
         }
 
         // Make sure that the window's new width and size are within the screen boundaries
@@ -161,27 +161,27 @@ app.on('will-quit', () => {
 // Auto updater events
 //---------------------------------------------------------
 autoUpdater.on('checking-for-update', () => {
-    logger.info('Checking for update...');
+    logger.info('Checking for update...')
 })
 
 autoUpdater.on('update-available', (ev, info) => {
-    logger.info('Update available.');
+    logger.info('Update available.')
 })
 
 autoUpdater.on('update-not-available', (ev, info) => {
-    logger.info('Update not available.');
+    logger.info('Update not available.')
 })
 
 autoUpdater.on('error', (ev, err) => {
-    logger.error('Error in auto-updater:');
-    logger.error(err);
+    logger.error('Error in auto-updater:')
+    logger.error(err)
 })
 
 autoUpdater.on('download-progress', (ev, progressObj) => {
-    logger.info('Download progress...');
+    logger.info('Download progress...')
 })
 
 autoUpdater.on('update-downloaded', (ev, info) => {
-    logger.info('Update downloaded; will install in 5 seconds');
+    logger.info('Update downloaded will install in 5 seconds')
 })
 

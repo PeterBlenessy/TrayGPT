@@ -22,10 +22,6 @@ export default {
             label: 'Dark mode',
             caption: 'Toggle dark/light mode'
         },
-        storeConversations: {
-            label: 'Store conversations',
-            caption: 'Store conversations in local storage'
-        },
         useConversationMode: {
             label: 'Use conversation mode',
             caption: 'Send individual messages or entire conversation'
