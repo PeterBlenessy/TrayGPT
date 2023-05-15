@@ -1,7 +1,7 @@
 import { app, Menu, Tray, nativeImage, BrowserWindow } from 'electron'
 import path from 'path'
 
-const createTray = (createWindow) => {
+const createTray = () => {
     const trayIcon = nativeImage.createFromPath(path.resolve(__dirname, 'icons/icon.png')).resize({ width: 16, height: 16 })
     const tray = new Tray(trayIcon)
 
@@ -11,11 +11,20 @@ const createTray = (createWindow) => {
         const contextMenu = Menu.buildFromTemplate([
             {
                 label: showHideLabel,
-                click: toggleVisibility
+                accelerator: 'CommandOrControl+H',
+                click: () => {
+                    if (isVisible) {
+                        app.hide()
+                    } else {
+                        app.focus({ steal: true })
+                        app.show()
+                    }
+                }
             },
             { type: 'separator' },
             {
                 label: 'Quit',
+                accelerator: 'CommandOrCtrl+Q',
                 click: function () {
                     app.isQuitting = true
                     app.quit()
@@ -24,20 +33,6 @@ const createTray = (createWindow) => {
         ])
         tray.setToolTip('This is my application.')
         tray.setContextMenu(contextMenu)
-    }
-
-    function toggleVisibility() {
-        const windows = BrowserWindow.getAllWindows()
-        const isVisible = windows.some(win => win.isVisible())
-
-        if (isVisible) {
-            for (const window of windows) {
-                window.hide()
-            }
-        } else {
-            createWindow()
-        }
-        updateContextMenu()
     }
 
     updateContextMenu()

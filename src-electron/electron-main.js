@@ -63,11 +63,6 @@ function createWindow() {
         autoUpdater.checkForUpdatesAndNotify()
         logger.info('registered-auto-update')
 
-        setInterval(() => {
-            autoUpdater.checkForUpdatesAndNotify()
-            logger.info('registered-auto-update refresh interval')
-        }, 1000 * 60 * 60) // Check every hour
-
         mainWindow.show()
     })
 
@@ -102,22 +97,6 @@ function createWindow() {
         // Set the new size for the window
         mainWindow.setSize(newWidth, newHeight)
     })
-
-    // When devtools is opened, double the window width and center it
-    mainWindow.webContents.on('devtools-opened', () => {
-        const windowSize = mainWindow.getSize()
-        mainWindow.setSize(windowSize[0] * 2, windowSize[1])
-        mainWindow.setMinimumSize(windowSize[0] * 2, windowSize[1])
-        mainWindow.center()
-    })
-
-    // When devtools is closed, reset the window width and center it
-    mainWindow.webContents.on('devtools-closed', () => {
-        const windowSize = mainWindow.getSize()
-        mainWindow.setMinimumSize(800, 60)
-        mainWindow.setSize(windowSize[0] / 2, windowSize[1])
-        mainWindow.center()
-    })
 }
 
 //---------------------------------------------------------
@@ -125,17 +104,12 @@ function createWindow() {
 //---------------------------------------------------------
 app.on('ready', () => {
     createWindow()
-    tray = createTray(createWindow)
+    tray = createTray()
     let ret = globalShortcut.register('CommandOrControl+Shift+Space', () => {
         createWindow()
     })
 
     if (!ret) { console.log('Registration of CommandOrControl+Shift+Space failed.') }
-
-    ret = globalShortcut.register('Escape', () => {
-        app.hide()
-    })
-    if (!ret) { console.log('Registration of Escape failed.') }
 })
 
 app.on('window-all-closed', () => {
@@ -143,7 +117,6 @@ app.on('window-all-closed', () => {
         app.quit()
     }
 })
-
 
 app.on('activate', () => {
     if (mainWindow === null) {
@@ -162,6 +135,14 @@ app.on('will-quit', () => {
 //---------------------------------------------------------
 autoUpdater.on('checking-for-update', () => {
     logger.info('Checking for update...')
+
+    // Register next check for updates at a random intervall between 1 and 3 hours
+    const randomInterval = Math.floor(Math.random() * 2) + 1
+    setTimeout(() => {
+        autoUpdater.checkForUpdatesAndNotify()
+        logger.info('registered-auto-update initial interval')
+    }, 1000 * 60 * 60 * randomInterval)
+    logger.info('Next check for updates in ' + randomInterval + ' hours')
 })
 
 autoUpdater.on('update-available', (ev, info) => {
@@ -184,4 +165,3 @@ autoUpdater.on('download-progress', (ev, progressObj) => {
 autoUpdater.on('update-downloaded', (ev, info) => {
     logger.info('Update downloaded will install in 5 seconds')
 })
-

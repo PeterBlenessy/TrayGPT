@@ -191,7 +191,7 @@ export default defineComponent({
 
                         // Check if error message is defined in i18n language files
                         if ((path + '.message') == t(path + '.message')) {
-                            errorMessage = "Unknown OpenAI API error code: " + error.message
+                            errorMessage = "Unknown error occured: " + error.message
                             console.log(errorMessage)
                         } else {
                             errorMessage = t(path + '.message') + '</br>' + t(path + '.solution')

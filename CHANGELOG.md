@@ -34,15 +34,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### [PATCH]
 - Fix. Sometimes, when darkMode is 'auto', and OS system wide dark mode setting is changed to 'auto', the header/input field turns black.
 - Fix the white flickering at app launch which still remains.
-- Fix the Esc shortcut which minimizes the app steels Esc from other apps. Try to make it only work when app is in focus, or pass the event through to other apps.
 - Fix settings and conversations are stored as keys, when it should be tables (storeName).
 - Fix restore conversations can be done multiple times.
-- Fix some error messages are shown as OpenAI API errors, when they are not.
 
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.13 - [UNRELEASED]
+## v0.1.14 - [UNRELEASED]
+
+## v0.1.13 - 2023-05-15
+- Removed Escape as globalShortcut to hide app, as it block other apps from receiving Escape.
+- Added accelerator (local shortcut) to Hide option in Tray menu to hide app.
+- Removed toggleVisibility() from tray.js and createWindow as parameter to createTray(). Using app.hide/show/focus instead.
+- Removed event handlers for devtools-opened/devtools-closed from electron-main.js, as it looked messy.
+- Fixed some error messages are shown as OpenAI API errors, when they are not.
+- Changed timer registration for next check for updates to be done right after receival of checking-for-update event.
+- Changed check for updates to be done at random intervals between 1 and 3 hours.
 
 ## v0.1.12 - 2023-05-14
 - Removed incosistently usesed semicolons at end of lines.
