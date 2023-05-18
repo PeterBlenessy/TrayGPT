@@ -40,7 +40,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [IN-PROGRESS]
 - Add option to send only the latest question or entire conversation when calling OpenAI API.
 
-## v0.1.14 - [UNRELEASED]
+## v0.1.15 - [UNRELEASED]
+
+## v0.1.14 - 2023-05-17
+- Refactoring of MainLayout.vue. Created UserInput component and added userInput to store.
+- Refactoring of MainLayout.vue. Created ChatMessages.vue component.
+- Removed duplicate messages arrays in ChatMessages.vue. Using spread operator [...myArray] to clone properly when needed.
+- Fixed window width increased on content width change when only height should be allowed to increase.
+- Added anumation (macOS only) when window height is increased.
+- Changed input field to autogrow when input text does not fit the width of the input field.
+- Fixed pressing enter to send question resulting in adding new line in input field by using @keydown.enter.prevent.
+- Removed _waiting..._ message from chat messages and simplified implementation of _loading_.
 
 ## v0.1.13 - 2023-05-15
 - Removed Escape as globalShortcut to hide app, as it block other apps from receiving Escape.
@@ -54,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## v0.1.12 - 2023-05-14
 - Removed incosistently usesed semicolons at end of lines.
 - Removed optional persistency of conversations. Now always persisting.
+
 ## v0.1.11 - 2023-05-12
 - Added notification for unknown error codes from OpenAI API. e.g. 400 when message is not in correct format.
 - Changed spinner as message.content to Waiting..., while waiting for OpenAI API response.

@@ -86,16 +86,17 @@ function createWindow() {
             return
         }
 
-        // Make sure that the window's new width and size are within the screen boundaries
+        // Grow only height.
+        // Make sure that the window's new height is within the screen boundaries
         const currentScreen = screen.getDisplayMatching(mainWindow.getBounds())
         const screenSize = currentScreen.size
         const windowBounds = mainWindow.getBounds()
+        const windowWidth = mainWindow.getSize()[0]
 
-        const newWidth = (windowBounds.x + size.width) < screenSize.width ? size.width : (screenSize.width - windowBounds.x)
         const newHeight = (windowBounds.y + size.height) < screenSize.height ? size.height : (screenSize.height - windowBounds.y)
 
         // Set the new size for the window
-        mainWindow.setSize(newWidth, newHeight)
+        mainWindow.setSize(windowWidth, newHeight, true)
     })
 }
 

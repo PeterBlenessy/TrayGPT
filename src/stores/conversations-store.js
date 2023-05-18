@@ -12,12 +12,16 @@ export const useConversationsStore = defineStore('conversations', {
     state: () => {
         return {
             conversations: [],
+            chatMessages: [],
+            systemMessage: "You are a helpful assistant. You respond like you were giving examples of how to format text in markdown format using GitHub flavor.",
+            userInput: '',
+            loading: false,
         }
     },
 
     actions: {
         clearMessages(conversationId, message) {
-            this.conversations = [];
+            this.conversations = []
         }
     }
 })
